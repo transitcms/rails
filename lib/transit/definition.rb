@@ -8,10 +8,12 @@ module Transit
   # @see lib/transit/deliverable
   # 
   module Definition
+
+    autoload :Post,  'transit/definitions/post'
+    autoload :Page,  'transit/definitions/page'
     
-    autoload :Attachment, 'transit/definitions/attachment'
-    autoload :Post,       'transit/definitions/post'
-    autoload :Page,       'transit/definitions/page'    
+    class MissingDefinitionError < StandardError
+    end    
     
   end # Definition
 end # Transit
