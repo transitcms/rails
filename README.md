@@ -1,5 +1,4 @@
-Transit
--------
+# Transit
 
 Transit is a content delivery engine for Rails using MongoDB. Content delivery engine is not just a fancy word but more clearly defines the purpose 
 that the gem aims to solve. Most Rails based CMS solutions are "ready to go" applications, where a few simple configurations will get you up and running with 
