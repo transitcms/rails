@@ -8,6 +8,10 @@ class Context
   include Mongoid::Document
   include Mongoid::Timestamps
   
+  if Transit.config.enable_translations
+    enable_translation
+  end
+  
   field :position, :type => Integer
   embedded_in :deliverable, :polymorphic => true
   
