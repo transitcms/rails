@@ -9,6 +9,7 @@ module Transit
   # 
   module Definition
 
+    autoload :Base,  'transit/definitions/base'
     autoload :Post,  'transit/definitions/post'
     autoload :Page,  'transit/definitions/page'
     

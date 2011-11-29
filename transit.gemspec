@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency("bson", "1.4.0")
   s.add_dependency("bson_ext", "1.4.0")
   s.add_dependency("mongoid", "~> 2.3")
+  s.add_dependency("paperclip", "~> 2.4")
   
   s.add_development_dependency('combustion', '~> 0.3.1')
   s.add_development_dependency("rspec", ">= 2.7.0")
@@ -31,4 +32,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency("mocha", ">= 0.10.0")
   s.add_development_dependency("mongoid-rspec", "~> 1.4.4")
   s.add_development_dependency("machinist", ">= 2.0.0.beta2")
+  s.add_development_dependency("mongoid_globalize", "0.1.3")
 end

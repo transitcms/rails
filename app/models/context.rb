@@ -8,6 +8,12 @@ class Context
   include Mongoid::Document
   include Mongoid::Timestamps
   
+  field :position, :type => Integer
   embedded_in :deliverable, :polymorphic => true
   
+  default_scope ascending(:position)
+  
 end
+
+# Try to remove the mongoid `preload_models` functionality un-necessary
+Dir[File.expand_path(".", __FILE__) << "/contexts/*.rb"].each{ |f| require f }
