@@ -24,6 +24,18 @@ describe Page do
     page.respond_to?(:pages).should be_true
   end
   
+  describe "validations" do
+    
+    subject do
+      Page
+    end
+    
+    it{ should validate_presence_of(:title) }
+    it{ should validate_presence_of(:name) }
+    it{ should validate_presence_of(:slug) }
+    
+  end
+  
   describe "when delivered_as page" do
   
     it "includes the page definition" do

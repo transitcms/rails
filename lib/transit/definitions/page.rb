@@ -36,6 +36,7 @@ module Transit
 		    
 		    references_and_referenced_in_many :content_blocks
 		    
+		    validates_presence_of :title, :name, :slug
       end
       
       
