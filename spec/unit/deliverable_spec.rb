@@ -26,6 +26,17 @@ describe "A Deliverable" do
   
   describe "creating contexts" do
     
+    describe "on a new record" do
+      
+      it "creates a new context" do
+        post = Post.make
+        post.contexts.count.should == 0
+        post.contexts_attributes = { "0" => { "_type" => "TextBlock", "body" => "Sample text body" }}
+        post.save
+        post.contexts.count.should == 1
+      end
+    end
+    
     describe "creating a new context" do
       
       before(:all) do

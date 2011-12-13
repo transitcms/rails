@@ -5,7 +5,11 @@
 # 
 class TextBlock < Context
   
-  with_optional_translation do
+  if Transit.config.enable_translations
+    enable_translation
+  end
+    
+  translates do
     field :body, :type => String, :default => ""
   end
   

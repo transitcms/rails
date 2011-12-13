@@ -1,7 +1,8 @@
 module Transit
   module Extension
-    autoload :Attachments, 'transit/extensions/attachments'
-    autoload :Translation, 'transit/extensions/translation'
+    autoload :Attachments,   'transit/extensions/attachments'
+    autoload :Translations,  'transit/extensions/translations'
+    autoload :ContentBlocks, 'transit/extensions/content_blocks'
     
     class << self
       
@@ -24,8 +25,10 @@ module Transit
       # @param [Array] *args Argument list of packages/extensions to apply to the deliverable 
       #
       def deliver_with(*args)
-        args.map(&:to_s).map(&:classify).each do |extname|
-          raise Transit::Extension::MissingExtensionError unless Transit::Extension.const_defined?(extname)
+        args.map(&:to_s).map(&:camelize).each do |extname|
+          unless Transit::Extension.const_defined?(extname)
+            raise Transit::Extension::MissingExtensionError.new("The extension #{extname} could not be found.")
+          end
           include Transit::Extension.const_get(extname)
         end
       end
@@ -34,7 +37,7 @@ module Transit
       
     end
     
-    class MissingExtensionError < StandardError
+    class MissingExtensionError < ::Transit::Error    
     end
     
   end # Extension

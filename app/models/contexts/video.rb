@@ -1,7 +1,7 @@
 ##
-# Context for attaching audio files and data to deliverables
+# Context for attaching video files and data to deliverables
 # 
-class Audio < Context
+class Video < Context
   
   field :source, :type => String
   belongs_to :asset
@@ -13,11 +13,11 @@ class Audio < Context
   
 end
 
-Transit::Delivery.configure(:audio) do |context, manager|
-  manager.template.content_tag(:div, "", :class =>  "audio-player", 
+Transit::Delivery.configure(:video) do |context, manager|
+  manager.template.content_tag(:div, "", :class =>  "video-player", 
     :data => { 
       :context_id   => context.id, 
-      :context_type => "audio", 
+      :context_type => "video", 
       :source       => context.source 
     }).html_safe
 end

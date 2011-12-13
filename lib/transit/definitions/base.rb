@@ -40,17 +40,17 @@ module Transit
           field = self.contexts.detect do |context| 
             context.id.to_s === attrs['id'].to_s
           end
-          field ||= self.send :build_context_by_specified_type, attrs
-          field.attributes = attrs
+          
+          field ||= self.contexts.create(attrs, (attrs.delete("_type") || 'context').classify.constantize)
+          
+          # We have to use update attributes because mongoid sometimes won't persist
+          # translations on embededdd docs without it
+          if field.respond_to?(:translations)
+            field.update_attributes(attrs)
+          else
+            field.attributes = attrs
+          end
         end
-      end
-
-      private
-
-      def build_context_by_specified_type(attrs)
-        sti_type = attrs.delete("_type")
-        field = self.contexts.build(attrs, sti_type.classify.constantize)
-        field.becomes(sti_type.classify.constantize)
       end
       
     end # Transit

@@ -30,6 +30,7 @@ module Transit
   
 end # Transit
 
+require "transit/error"
 require "transit/deliverable"
 require "transit/definition"
 require "transit/hooks"

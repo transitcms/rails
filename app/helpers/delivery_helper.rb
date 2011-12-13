@@ -1,7 +1,7 @@
 module DeliveryHelper
   
   def deliver(resource)
-    delivery_manager  = Transit::Delivery.new(self)
+    delivery_manager  = Transit::Delivery.new(resource, self)
     response = capture do
       resource.contexts.ascending(:position).each do |context|
         if context.respond_to?(:deliver)
@@ -12,6 +12,11 @@ module DeliveryHelper
       end
     end
     response.html_safe
+  end
+  
+  def deliver_context(context)
+    return context.deliver if context.respond_to?(deliver)
+    Transit::Delivery.new(context.deliverable, self).deliver_context(context)
   end
   
 end

@@ -1,6 +1,6 @@
 module Transit
   module Extension
-    module Translation
+    module Translations
     ##
     # Block to process translatable fields. If translations are enabled
     # Mongoid::Globalize is enabled and attributes are parsed for translation.
@@ -13,22 +13,22 @@ module Transit
     end
     
     ##
-    # Class method for enabling translations on any model
-    # 
-    def enable_translation
-      begin
-        include Mongoid::Globalize
-      rescue LoadError
-        raise "Missing the mongoid_globalize gem. Please add it to your gemfile to translate models"
-      end
-    end
-    
-    ##
     # Stub for translation functionality. 
     # This method is overridden with the functionality provided by Mongoid::Globalize
     # 
     def translates(&block)
       block.call
+    end
+    
+    ##
+    # Class method for enabling translations on any model
+    # 
+    def enable_translation
+      begin
+        include Mongoid::Globalize        
+      rescue LoadError
+        raise "Missing the mongoid_globalize gem. Please add it to your gemfile to translate models"
+      end
     end
     
     end # Translation

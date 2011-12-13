@@ -13,7 +13,7 @@ module Transit
     autoload :Post,  'transit/definitions/post'
     autoload :Page,  'transit/definitions/page'
     
-    class MissingDefinitionError < StandardError
+    class MissingDefinitionError < ::Transit::Error
     end    
     
   end # Definition
