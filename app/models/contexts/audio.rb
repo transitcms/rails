@@ -14,10 +14,8 @@ class Audio < Context
 end
 
 Transit::Delivery.configure(:audio) do |context, manager|
-  manager.template.content_tag(:div, "", :class =>  "audio-player", 
+  manager.template.audio_tag(context.source.to_s,
     :data => { 
-      :context_id   => context.id, 
-      :context_type => "audio", 
-      :source       => context.source 
+      :context_id   => context.id.to_s
     }).html_safe
 end

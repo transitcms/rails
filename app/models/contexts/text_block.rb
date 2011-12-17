@@ -10,7 +10,7 @@ class TextBlock < Context
   end
     
   translates do
-    field :body, :type => String, :default => ""
+    field :body, :type => HtmlContent, :default => ""
   end
   
   ##

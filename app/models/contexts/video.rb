@@ -14,10 +14,8 @@ class Video < Context
 end
 
 Transit::Delivery.configure(:video) do |context, manager|
-  manager.template.content_tag(:div, "", :class =>  "video-player", 
+  manager.template.video_tag(context.source.to_s,
     :data => { 
-      :context_id   => context.id, 
-      :context_type => "video", 
-      :source       => context.source 
+      :context_id   => context.id.to_s
     }).html_safe
 end

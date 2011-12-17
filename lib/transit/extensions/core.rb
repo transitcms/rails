@@ -14,4 +14,21 @@ module Transit
   end
 end
 
+class HtmlContent < String
+  include Mongoid::Fields::Serializable
+
+  def initialize(strval)
+    self.concat strval
+  end
+  
+  def deserialize(strval)
+    self.replace strval
+  end
+
+  def serialize(strval)
+    strval
+  end
+  
+end
+
 String.send(:include, Transit::Extension::String)

@@ -3,6 +3,7 @@ module Transit
     autoload :Attachments,   'transit/extensions/attachments'
     autoload :Translations,  'transit/extensions/translations'
     autoload :ContentBlocks, 'transit/extensions/content_blocks'
+    autoload :MediaContext,  'transit/extensions/media_context'
     
     class << self
       
