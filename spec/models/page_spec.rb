@@ -12,10 +12,6 @@ describe Page do
     @parent_page = Page.where(:title => "Parent Page").first || Page.make!(:title => "Parent Page", :slug => 'parent-page')
   end
   
-  it "references many pages" do
-    should be_referenced_in(:page)
-  end
-  
   it "references many content blocks" do
     should reference_and_be_referenced_in_many(:content_blocks)
   end
@@ -76,6 +72,14 @@ describe Page do
     
     let(:sub_page) do
       @sub_page ||= Page.make!(:title => "Sub Page", :slug => "sub-page")
+    end
+    
+    it "returns false for pages? when the page has children" do
+      page.pages?.should be_true
+    end
+    
+    it "returns false for pages? when the page has children" do
+      sub_page.pages?.should be_false
     end
     
     it "stores sub-pages as an array" do

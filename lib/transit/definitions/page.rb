@@ -1,3 +1,5 @@
+require 'mongoid/tree'
+
 module Transit
   module Definition
     ##
@@ -11,6 +13,10 @@ module Transit
       extend ActiveSupport::Concern
       
       included do
+        include Mongoid::Tree
+        include Mongoid::Tree::Traversal
+        include Mongoid::Tree::Ordering
+        
         translates do
           field :name,        :type => String,  :default => "Un-named Page"
           field :title,       :type => String,  :default => ""        
@@ -23,16 +29,27 @@ module Transit
         
         # Stores an array of paths/slugs based on the page's level in the tree
         field :path,        :type => Array, :default => []
-        
-        # Position field for use in building navigation trees
-        field :position,    :type => Integer
 		    
 		    # Pages can always reference sub-pages etc
-		    send(:has_many, :"#{self.name.pluralize.underscore}")
-		    send(:belongs_to, :"#{self.name.underscore}")
+		    define_method(:"#{self.name.pluralize.underscore}") do
+		      self.children
+	      end
+	      
+	      define_method(:"#{self.name.pluralize.underscore}=") do |kids|
+		      self.children  = kids
+	      end
+        
+        define_method(:"#{self.name.underscore}") do
+          self.parent
+        end
+        
+        define_method(:"#{self.name.underscore}=") do |owner|
+          self.parent = owner
+        end
 		    
 		    before_save :generate_paths
 		    before_save :sanitize_path_names
+		    before_destroy :nullify_children
 		    
 		    references_and_referenced_in_many :content_blocks
 		    
@@ -43,7 +60,7 @@ module Transit
       module ClassMethods
         
         def top_level
-          where(:page_id => nil)           
+          roots
         end
         
         def published
@@ -61,11 +78,8 @@ module Transit
         self.path.join("/")
       end
       
-      ##
-      # Accessor for the parent page
-      # 
-      def parent
-        self.send(:"#{self.class.name.underscore}")
+      def pages?
+        self.send(:"#{self.class.name.pluralize.underscore}").exists?
       end
       
       private
@@ -77,14 +91,9 @@ module Transit
       # 
       #  
       def generate_paths
-        return true unless self.page_id.present?
-        parts = [self.slug]
-        owner = parent
-        until owner.nil?
-          parts.unshift(owner.slug.to_s)
-          owner = owner.parent
+        self.path = self.ancestors_and_self.collect(&:slug).map! do |part|
+          _sanitize_uri_fragment(part)
         end
-        self.path = parts.map!{ |part| _sanitize_uri_fragment(part) }
       end
       
       ##

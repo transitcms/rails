@@ -1,14 +1,16 @@
 ##
 # Context for attaching video files and data to deliverables
 # 
-class Video < Context
+class Video < MediaContext
+  field :poster, :type => EmbeddedImage
   
-  field :source, :type => String
-  belongs_to :asset
-  
-  def source
-    return read_attribute("source") if self.asset_id.nil?
-    self.asset.file.url(:original)
+  ##
+  # Returns a boolean value representing whether or not a 
+  # poster has been created for this context.
+  # @return [Boolean] Whether a poster exists
+  # 
+  def poster?
+    !read_attribute('poster').nil?
   end
   
 end

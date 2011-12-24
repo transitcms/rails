@@ -24,6 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency("bson_ext", "1.4.0")
   s.add_dependency("mongoid", "~> 2.3")
   s.add_dependency("paperclip", "~> 2.4")
+  s.add_dependency("mongoid-tree", "~> 0.6")
   
   s.add_development_dependency('combustion', '~> 0.3.1')
   s.add_development_dependency("rspec", ">= 2.7.0")
