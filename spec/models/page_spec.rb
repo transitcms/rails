@@ -71,7 +71,7 @@ describe Page do
     end
     
     let(:sub_page) do
-      @sub_page ||= Page.make!(:title => "Sub Page", :slug => "sub-page")
+      @sub_page ||= Page.make!(:title => "Sub Page", :slug => "sub-page", :published => true)
     end
     
     it "returns false for pages? when the page has children" do
@@ -146,6 +146,23 @@ describe Page do
 
       it "only finds pages that do not belong to another" do
         Page.top_level.count.should == 1
+      end
+      
+    end
+    
+    describe "published scope" do
+
+      before(:all) do
+        @page     = Page.make!(:title => 'Un-Published Page', :slug => 'un-published-page')
+        @pub_page = Page.make!(:title => 'Published Page', :slug => 'published-page', :published => true)
+      end
+
+      it 'does not find un-published pages' do
+        Page.published.all.collect{ |p| p.id }.map(&:to_s).should_not include(@page.id.to_s)
+      end
+      
+      it 'finds published pages' do
+        Page.published.all.collect{ |p| p.id }.map(&:to_s).should include(@pub_page.id.to_s)
       end
       
     end

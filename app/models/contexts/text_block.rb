@@ -4,15 +4,15 @@
 # 
 # 
 class TextBlock < Context
-  
+
   if Transit.config.enable_translations
     enable_translation
   end
-    
+  
   translates do
     field :body, :type => HtmlContent, :default => ""
   end
-  
+
   ##
   # Contexts are delivered either internally or via helper method. 
   # If the deliver method exists on a resource, it is used. 
@@ -21,5 +21,5 @@ class TextBlock < Context
   def deliver
     self.body.to_s.html_safe
   end
-  
+
 end

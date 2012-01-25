@@ -51,7 +51,7 @@ module Transit
 		    before_save :sanitize_path_names
 		    before_destroy :nullify_children
 		    
-		    references_and_referenced_in_many :content_blocks
+		    has_and_belongs_to_many :content_blocks
 		    
 		    validates_presence_of :title, :name, :slug
       end
@@ -59,10 +59,24 @@ module Transit
       
       module ClassMethods
         
+        ##
+        # Returns all top_level pages (those without children)
+        # 
         def top_level
           roots
         end
         
+        ##
+        # Accepts a url fragment and returns the corresponding page.
+        # @param [String] path The url fragment
+        # 
+        def from_path(path)
+          where(path: path.split("/"))
+        end
+        
+        ##
+        # Returns all published pages
+        # 
         def published
           where(:published => true)
         end
@@ -75,11 +89,11 @@ module Transit
       # 
       def full_path
         return self.slug if [self.path].flatten.compact.empty?
-        self.path.join("/")
+        self.path.dup.join("/")
       end
       
       def pages?
-        self.send(:"#{self.class.name.pluralize.underscore}").exists?
+        self.send(:"#{self.class.name.pluralize.underscore}").published.exists?
       end
       
       private
@@ -91,7 +105,7 @@ module Transit
       # 
       #  
       def generate_paths
-        self.path = self.ancestors_and_self.collect(&:slug).map! do |part|
+        self.path = self.ancestors_and_self.collect(&:slug).map do |part|
           _sanitize_uri_fragment(part)
         end
       end

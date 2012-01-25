@@ -15,7 +15,7 @@ describe Transit::Delivery, type: :view do
   describe "an instance" do
     
     it "takes an instance of a view as @template" do
-      delivery = Transit::Delivery.new(view)
+      delivery = Transit::Delivery.new(TextBlock.new, view)
       delivery.template.should_not be_nil
     end
     
@@ -29,7 +29,7 @@ describe Transit::Delivery, type: :view do
         Transit::Delivery.configure(:audio) do |ctext, template|
           template.content_tag(:div)
         end 
-        delivery = Transit::Delivery.new(view)
+        delivery = Transit::Delivery.new(Audio.new, view)
         delivery.deliver_context(item).should == "<div></div>"
       end
       

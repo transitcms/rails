@@ -18,11 +18,11 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
   
-  s.add_dependency("rails", "~> 3.1")
-  s.add_dependency("mongo", "~> 1.4")  
-  s.add_dependency("bson", "1.4.0")
-  s.add_dependency("bson_ext", "1.4.0")
-  s.add_dependency("mongoid", "~> 2.3")
+  s.add_dependency("rails", ">= 3.1")
+  s.add_dependency("mongo", "~> 1.5")  
+  s.add_dependency("bson", "~> 1.5")
+  s.add_dependency("bson_ext", "~> 1.5")
+  s.add_dependency("mongoid", "~> 2.4")
   s.add_dependency("paperclip", "~> 2.4")
   s.add_dependency("mongoid-tree", "~> 0.6")
   
@@ -32,6 +32,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rspec-rails-mocha", ">= 0.3.1")
   s.add_development_dependency("mocha", ">= 0.10.0")
   s.add_development_dependency("mongoid-rspec", "~> 1.4.4")
-  s.add_development_dependency("machinist", ">= 2.0.0.beta2")
-  s.add_development_dependency("mongoid_globalize", "0.1.3")
+  s.add_development_dependency("machinist", "~> 2.0")
+  s.add_development_dependency("mongoid_globalize", "0.2.0")
 end

@@ -6,7 +6,6 @@
 # 
 
 require 'transit/delivery'
-
 class Context
   include Mongoid::Document
   include Mongoid::Timestamps

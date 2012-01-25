@@ -11,7 +11,10 @@ module DeliveryHelper
   end
   
   def deliver_context(context, manager = nil)
-    return context.deliver if context.respond_to?(:deliver)
+    if context.respond_to?(:deliver)
+      content = context.deliver
+      return content unless content === false
+    end
     (manager ||= Transit::Delivery.new(context.deliverable, self)).deliver_context(context)
   end
   

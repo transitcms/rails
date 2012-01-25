@@ -52,9 +52,9 @@ By default the helper will attempt to deliver content in one of 2 ways:
 2. Using a pre-defined delivery block that, when passed a context and template object builds the necessary html to render that context. For example, to deliver an `Audio`
    context using Rails' built in audio tag helper:
 
-	Transit::Delivery.configure(:audio) do |context, template|
-		template.audio_tag(context.source)
-	end
+		Transit::Delivery.configure(:audio) do |context, template|
+			template.audio_tag(context.source)
+		end
 	
 Contexts
 -------

@@ -13,6 +13,7 @@ class Asset
   has_attached_file :file, Transit.config.assets.to_hash
   
   field :name,              :type => String
+  
   field :file_file_name,    :type => String
   field :file_content_type, :type => String
   field :file_updated_at,   :type => Time

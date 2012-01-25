@@ -1,19 +1,3 @@
-module Transit
-  module Extension
-    module String
-      def to_slug
-        value = self.mb_chars.normalize(:kd).gsub(/[^\x00-\x7F]/n, '').to_s
-        value.gsub!(/[']+/, '')
-        value.gsub!(/\W+/, ' ')
-        value.strip!
-        value.downcase!
-        value.gsub!(' ', '-')
-        value
-      end
-    end    
-  end
-end
-
 require 'mongoid'
 
 class HtmlContent < String
@@ -64,14 +48,12 @@ class EmbeddedImage
 
   def serialize(image_data)
     set_data(image_data)
-    ::Base64.encode64s(::Marshal.dump(self))
+    ::Base64.encode64(::Marshal.dump(self))
   end
   
   def to_s
     return data unless data.is_a?(ImageData)
-    "data:#{data.content_type};base64,#{::Base64.encode64s(data.body)}"
+    "data:#{data.content_type};base64,#{::Base64.encode64(data.body)}"
   end
   
 end
-
-String.send(:include, Transit::Extension::String)
