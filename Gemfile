@@ -3,6 +3,7 @@ source "http://rubygems.org"
 gem 'combustion', '~> 0.3.1', :group => :development
 
 group :test do
+  gem 'rake'
   gem 'growl'
   gem 'guard', '0.8.8'
   gem "spork", "~> 0.9.0.rc"
