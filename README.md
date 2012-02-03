@@ -1,4 +1,5 @@
 # Transit
+- - - -
 
 Transit is a content delivery engine for Rails using MongoDB. Content delivery engine is not just a fancy word but more clearly defines the purpose 
 that the gem aims to solve. Most Rails based CMS solutions are "ready to go" applications, where a few simple configurations will get you up and running with 
@@ -11,6 +12,7 @@ Transit operates around the concept that all content management can be broken do
 
 Each *deliverable*  can embed one or many `contexts` which are representations of a particular type of content included within that deliverable.
 
+
 ### Posts
 
 Posts are your standard blog/article/etc posts, which consist of a 
@@ -20,6 +22,7 @@ Posts are your standard blog/article/etc posts, which consist of a
 * a *body* which defines the content that post contains.
 * a *teaser* which is used as a "preview" of the post.
 * a slug which represents the url to the post. On creation, this field is automatically created from the title unless already provided.
+
 
 ### Pages
 
@@ -31,8 +34,9 @@ Pages are the "standalone" version of a post. Whereas posts operate on a feed ty
 * a page description
 * one or more *body* areas depending on the layout of the particular page.
 
-Content
--------
+
+## Content
+- - - -
 
 Deliverables associate (ie: embed) one or more `contexts` which, when combined, represent the content a particular package contains. Each context is assigned 
 any number of attributes, and a `position` which defines the order in which that context exists in the flow of content.
@@ -67,8 +71,9 @@ By default the helper will attempt to deliver content in one of 2 ways:
 			audio_tag(context.source)
 		end
 	
-Contexts
--------
+
+## Contexts
+- - - -
 
 There are 4 basic contexts included in the core engine:
 
@@ -81,8 +86,9 @@ There are 4 basic contexts included in the core engine:
 
 To create a custom context, simply create a model that subclasses the Context model. 
 
-Additional Items
--------
+
+## Additional Items
+- - - -
 
 ### Content Blocks
 
@@ -94,8 +100,9 @@ sidebars or areas of content that are used in multiple places within the site, p
 To provide support for file and image uploads, an Asset model is provided. This model can accept any type of file upload, stored as the `file` field. 
 The asset model also provides methods to determine whether a file is an `image?`, `video?`, or `audio?`. 
 
-License
--------
+
+## License
+- - - -
 
 Copyright (c) 2010, 2011 Brent Kirby / kurb media llc
 
