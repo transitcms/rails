@@ -46,4 +46,12 @@ describe DeliveryHelper, :type => :helper do
     
   end
   
+  context 'when delivering a single context' do
+    
+    it 'only outputs that context' do
+      helper.deliver(@audio).should == audio_body
+    end
+    
+  end
+  
 end

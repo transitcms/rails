@@ -6,7 +6,6 @@ group :test do
   gem 'rake'
   gem 'growl'
   gem 'guard', '0.8.8'
-  gem "spork", "~> 0.9.0.rc"
   gem "guard-rspec"
   gem 'machinist_mongo', git: "git://github.com/nmerouze/machinist_mongo.git", branch: "machinist2", require: "machinist/mongoid"
 end

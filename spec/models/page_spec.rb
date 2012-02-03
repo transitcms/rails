@@ -53,13 +53,11 @@ describe Page do
     end
     
     it "should remove protocols on save" do
-      slugged = Page.make!(:title => "Test page", :slug => "http://somedomain.com/the-path")
-      slugged.reload.slug.should == "the-path"
+      Page.make!(:title => "Test page", :slug => "http://somedomain.com/the-path").reload.slug.should == "the-path"
     end
     
     it "should remove leading slashes on save" do
-      slugged = Page.make!(:title => "Test page", :slug => "//the-path")
-      slugged.reload.slug.should == "the-path"
+      Page.make!(:title => "Test page", :slug => "//the-path").reload.slug.should == "the-path"
     end
     
   end

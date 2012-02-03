@@ -40,11 +40,11 @@ describe "A Deliverable" do
     describe "creating a new context" do
       
       before(:all) do
-        @_post = Post.make!
+        @post = Post.make!
       end
       
-      let(:post) do
-        @_post
+      let!(:post) do
+        @post
       end
       
       context "when no contexts exist" do
@@ -85,13 +85,15 @@ describe "A Deliverable" do
         after(:all) do
           post.contexts.last.delete
         end
+        
       end
+      
     end
     
     describe "updating an existing context" do
       
       let!(:post) do
-        @_post || Post.make!
+        @post || Post.make!
       end
       
       before(:all) do
@@ -105,8 +107,7 @@ describe "A Deliverable" do
       
       it 'should update the context inline' do
         expect{
-          post.contexts_attributes = { "0" => { "id" => context.id.to_s, "_type" => "TextBlock", "body" => "Sample text body" }}
-          post.save
+          post.update_attributes(:contexts_attributes => { "0" => { "id" => context.id.to_s, "_type" => "TextBlock", "body" => "Sample text body" }})
         }.to_not change(post.contexts, :count)
       end
       

@@ -61,6 +61,7 @@ module Transit
       if ::Context.descendants.include?(resource.class)
         return deliver_context(resource)
       end
+      raise UndeliverableResourceError.new("The class #{resource.class.name} is not deliverable.") unless resource.respond_to?(:contexts)
       response = template.capture do
         resource.contexts.ascending(:position).each do |context|          
           template.concat(deliver_context(context))
@@ -89,6 +90,12 @@ module Transit
     # Raised when a delivery method cannot be found for an object
     #
     class UndeliverableContextError < ::Transit::Error      
+    end
+    
+    ##
+    # Raised when a resource is passed that is not a deliverable
+    #
+    class UndeliverableResourceError < ::Transit::Error      
     end
     
   end # Delivery
