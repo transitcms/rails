@@ -164,6 +164,7 @@ DEPENDENCIES
   mocha (>= 0.10.0)
   mongoid-rspec (~> 1.4.4)
   mongoid_globalize (= 0.2.0)
+  rake
   rspec (>= 2.7.0)
   rspec-rails (>= 2.7.0)
   rspec-rails-mocha (>= 0.3.1)
