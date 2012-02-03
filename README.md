@@ -1,5 +1,5 @@
-# Transit
-- - - -
+Transit
+==========================
 
 Transit is a content delivery engine for Rails using MongoDB. Content delivery engine is not just a fancy word but more clearly defines the purpose 
 that the gem aims to solve. Most Rails based CMS solutions are "ready to go" applications, where a few simple configurations will get you up and running with 
@@ -13,7 +13,8 @@ Transit operates around the concept that all content management can be broken do
 Each *deliverable*  can embed one or many `contexts` which are representations of a particular type of content included within that deliverable.
 
 
-### Posts
+Posts
+--------------------------
 
 Posts are your standard blog/article/etc posts, which consist of a 
 * title
@@ -24,7 +25,8 @@ Posts are your standard blog/article/etc posts, which consist of a
 * a slug which represents the url to the post. On creation, this field is automatically created from the title unless already provided.
 
 
-### Pages
+Pages
+--------------------------
 
 Pages are the "standalone" version of a post. Whereas posts operate on a feed type system, pages are singular in nature and consist of
 * a url (ie: slug).
@@ -35,8 +37,8 @@ Pages are the "standalone" version of a post. Whereas posts operate on a feed ty
 * one or more *body* areas depending on the layout of the particular page.
 
 
-## Content
-- - - -
+Content
+--------------------------
 
 Deliverables associate (ie: embed) one or more `contexts` which, when combined, represent the content a particular package contains. Each context is assigned 
 any number of attributes, and a `position` which defines the order in which that context exists in the flow of content.
@@ -72,8 +74,8 @@ By default the helper will attempt to deliver content in one of 2 ways:
 		end
 	
 
-## Contexts
-- - - -
+Contexts
+--------------------------
 
 There are 4 basic contexts included in the core engine:
 
@@ -87,8 +89,8 @@ There are 4 basic contexts included in the core engine:
 To create a custom context, simply create a model that subclasses the Context model. 
 
 
-## Additional Items
-- - - -
+Additional Items
+--------------------------
 
 ### Content Blocks
 
@@ -101,8 +103,8 @@ To provide support for file and image uploads, an Asset model is provided. This 
 The asset model also provides methods to determine whether a file is an `image?`, `video?`, or `audio?`. 
 
 
-## License
-- - - -
+License
+--------------------------
 
 Copyright (c) 2010, 2011 Brent Kirby / kurb media llc
 
