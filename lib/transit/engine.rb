@@ -1,6 +1,9 @@
 require 'transit'
 
 module Transit
+  ##
+  # Ties into the Rails application.
+  # 
   class Engine < Rails::Engine
     config.transit = Transit.config
     paths['app/models'] << File.expand_path("../../../app/models/contexts", __FILE__)

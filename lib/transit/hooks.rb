@@ -17,6 +17,14 @@ module Transit
   @definition_hooks = Hash.new {|h,k| h[k] = [] }
   @defined = {}
 
+  ##
+  # Add a hook to be called when a deliverable definition is 
+  # applied to a class.
+  # 
+  # @param [String,Symbol] name The name of the definition to respond to
+  # @param [Hash] options A hash of options to be passed to the block when called
+  # @param [Proc] &block The block to call
+  # 
   def self.on_definition(name, options = {}, &block)
     if base = @defined[name]
       execute_hook(base, options, block)
@@ -25,6 +33,9 @@ module Transit
     end
   end
   
+  ##
+  # Executes a definition hook
+  # 
   def self.execute_hook(base, options, block)
     if options[:yield]
       block.call(base)
@@ -32,7 +43,12 @@ module Transit
       base.instance_eval(&block)
     end
   end
-
+  
+  ##
+  # Runs all definition hooks for a particular definition
+  # @param [String,Symbol] name The name of the definition in which callbacks should be run
+  # @param [Object] base This class becomes the scope in which the block will be run.
+  # 
   def self.run_definition_hooks(name, base = Object)
     @defined[name] = base
     @definition_hooks[name].each do |hook, options|

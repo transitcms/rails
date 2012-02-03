@@ -1,4 +1,7 @@
 module Transit
+  ##
+  # Stores global configuration properties
+  # 
   class Configuration
     include ActiveSupport::Configurable
     config_accessor :enable_translations, :assets

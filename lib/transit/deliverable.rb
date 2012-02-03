@@ -13,6 +13,9 @@ module Transit
       include Mongoid::MultiParameterAttributes      
     end
     
+    ##
+    # Class level methods and functionality
+    #
     module ClassMethods
       
       ##

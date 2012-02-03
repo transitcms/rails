@@ -8,6 +8,6 @@ class EmbeddedContentBlock < Context
   
 end
 
-Transit::Delivery.configure(:embedded_content_block) do |context, manager|
-  manager.template.deliver(context.content_block || ::ContentBlock.new)
+Transit::Delivery.configure(:embedded_content_block) do |context|
+  deliver(context.content_block || ::ContentBlock.new)
 end

@@ -1,0 +1,329 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Transit::Extension::Translations
+  
+    &mdash; Transit: MongoDB Backed Rails CMS Engine
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (T)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Transit.html" title="Transit (module)">Transit</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Extension.html" title="Transit::Extension (module)">Extension</a></span></span>
+     &raquo; 
+    <span class="title">Translations</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Transit::Extension::Translations
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r1 last">Defined in:</dt>
+    <dd class="r1 last">lib/transit/extensions/translations.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Adds functionality for translating attributes within models.  By stubbing
+these methods by default, external definitions or extensions can  call them
+regardless of whether translation is enabled or not.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#enable_translation-instance_method" title="#enable_translation (instance method)">- (Object) <strong>enable_translation</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Class method for enabling translations on any model.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#translates-instance_method" title="#translates (instance method)">- (Object) <strong>translates</strong>(&amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Stub for translation functionality.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#with_optional_translation-instance_method" title="#with_optional_translation (instance method)">- (Object) <strong>with_optional_translation</strong>(&amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Block to process translatable fields.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="enable_translation-instance_method">
+  
+    - (<tt>Object</tt>) <strong>enable_translation</strong> 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Class method for enabling translations on any model</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+31
+32
+33
+34
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/transit/extensions/translations.rb', line 31</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_enable_translation'>enable_translation</span>
+  <span class='kw'>begin</span>
+    <span class='id identifier rubyid_include'>include</span> <span class='const'>Mongoid</span><span class='op'>::</span><span class='const'>Globalize</span>        
+  <span class='kw'>rescue</span> <span class='const'>LoadError</span>
+    <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Missing the mongoid_globalize gem. Please add it to your gemfile to translate models</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="translates-instance_method">
+  
+    - (<tt>Object</tt>) <strong>translates</strong>(&amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Stub for translation functionality.  This method is overridden with the
+functionality provided by Mongoid::Globalize</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+24
+25
+26</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/transit/extensions/translations.rb', line 24</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_translates'>translates</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_block'>block</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <p class="signature " id="with_optional_translation-instance_method">
+  
+    - (<tt>Object</tt>) <strong>with_optional_translation</strong>(&amp;block) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Block to process translatable fields. If translations are enabled
+Mongoid::Globalize is enabled and attributes are parsed for translation. If
+not, it is executed normally</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+14
+15
+16
+17
+18</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/transit/extensions/translations.rb', line 14</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_with_optional_translation'>with_optional_translation</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_translates'>translates</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_block'>block</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Feb  3 00:08:29 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

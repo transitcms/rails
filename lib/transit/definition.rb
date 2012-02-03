@@ -13,6 +13,10 @@ module Transit
     autoload :Post,  'transit/definitions/post'
     autoload :Page,  'transit/definitions/page'
     
+    ##
+    # Raised when trying to include deliverable definition 
+    # that does not exist.
+    #
     class MissingDefinitionError < ::Transit::Error
     end    
     

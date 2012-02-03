@@ -1,0 +1,6 @@
+--title "Transit: MongoDB Backed Rails CMS Engine"
+--protected
+--no-private
+--charset utf-8
+--exclude (tmp|spec|vendor)/.*
+--exclude app/assets/*

@@ -25,12 +25,12 @@ describe Transit::Delivery, type: :view do
         Audio.new(source: 'www.test.com/something.mp3')
       end
       
-      it 'passes the context and template to each proc' do
-        Transit::Delivery.configure(:audio) do |ctext, template|
-          template.content_tag(:div)
-        end 
-        delivery = Transit::Delivery.new(Audio.new, view)
-        delivery.deliver_context(item).should == "<div></div>"
+      it 'renders in the scope of the current view' do
+        Transit::Delivery.configure(:audio) do |ctext|
+          ctext.is_a?(Audio).should == true
+          content_tag(:div)
+        end               
+        Transit::Delivery.new(item, view).deliver.should == "<div></div>" 
       end
       
     end

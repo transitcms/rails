@@ -3,7 +3,7 @@ require 'spec_helper'
 describe DeliveryHelper, :type => :helper do
 
   Transit::Delivery.configure(:audio) do |context, tpl|
-    tpl.content_tag(:div, "", :class =>  "audio-player", 
+    content_tag(:div, "", :class =>  "audio-player", 
       :data => { 
         :context_id   => context.id.to_s, 
         :context_type => "audio", 

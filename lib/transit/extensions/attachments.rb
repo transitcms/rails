@@ -12,6 +12,9 @@ module Transit
         include Paperclip::Glue
       end
       
+      ##
+      # Class level methods and functionality
+      #
       module ClassMethods
         ##
         # Shortcut to paperclip's has_attached_file method which 

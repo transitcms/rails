@@ -1,7 +1,9 @@
 module Transit
   module Definition
     ##
-    # Base module/functionality for any type of deliverable
+    # Base module/functionality for any type of deliverable.
+    # Creates class attributes and relationships that all deliverable 
+    # type classes should implement.
     # 
     module Base
       
@@ -20,6 +22,9 @@ module Transit
 
         # All deliverables embed contexts which define the content each deliverable contains
         embeds_many :contexts, :as => :deliverable
+        
+        # Deliverables may have_many assets. 
+        has_many :assets, :as => :deliverable
         
         # Override nested_attributes to ensure _type is properly set
         accepts_nested_attributes_for :contexts, :allow_destroy => true

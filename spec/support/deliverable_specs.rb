@@ -20,9 +20,7 @@ module DeliverableSpecs
       described_class.respond_to?(:delivery_options).should be_true
     end
     
-    it "embeds many contexts" do
-      described_class.should embed_many(:contexts)
-    end
+    it{ should embed_many(:contexts) }    
     
   end
   

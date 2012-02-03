@@ -1,5 +1,6 @@
 module Transit
-  class Error < StandardError
+  # @private
+  class Error < StandardError #:nodoc:
     BASE_KEY = "transit.errors"
     
     # ##

@@ -120,6 +120,10 @@ describe Page do
         sub_page.pages << tertiary
       end
       
+      after(:all) do
+        tertiary.try(:destroy)
+      end
+      
       it "is nested under the secondary page" do
         sub_page.pages.should include(tertiary)
       end
@@ -139,6 +143,44 @@ describe Page do
       it "stores all parent paths in the path array" do
         tertiary.path.should == ['parent-page', 'sub-page', 'tertiary-page']
       end
+      
+    end
+    
+    describe "de-duping slugs" do
+      
+      
+      context "when a child page's slug contains the parent" do
+        
+        let(:secondary) do
+          @secpage ||= Page.make!(:page => page, :title => "Dupetest Page", :slug => 'parent-page/dupetest-page')
+        end
+        
+        it "removes the parent's slug from the child" do
+          secondary.path.should == ['parent-page', 'dupetest-page']
+        end
+        
+        after(:all) do
+          @secpage.try(:destroy); @secpage = nil
+        end
+        
+      end
+      
+      context "when a child page's slug does not contain a parent" do
+        
+        let(:nodupe) do
+          @secpage2 ||= Page.make!(:page => page, :title => "Dupetest Page2", :slug => 'random-page/dupetest-page')
+        end
+        
+        it "does not modify the slug" do
+          nodupe.path.should == ['parent-page', 'random-page/dupetest-page']
+        end
+        
+        after(:all) do
+          @secpage2.try(:destroy); @secpage2 = nil
+        end
+        
+      end
+      
       
     end
     

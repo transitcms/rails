@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Module: Transit::Definition::Base
+  
+    &mdash; Transit: MongoDB Backed Rails CMS Engine
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  relpath = '../..';
+  if (relpath != '') relpath += '/';
+</script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+    
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../../_index.html">Index (B)</a> &raquo; 
+    <span class='title'><span class='object_link'><a href="../../Transit.html" title="Transit (module)">Transit</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Definition.html" title="Transit::Definition (module)">Definition</a></span></span>
+     &raquo; 
+    <span class="title">Base</span>
+  
+  
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a id="class_list_link" href="#">Class List</a>
+  
+    <a id="method_list_link" href="#">Method List</a>
+  
+    <a id="file_list_link" href="#">File List</a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+    
+    <iframe id="search_frame"></iframe>
+    
+    <div id="content"><h1>Module: Transit::Definition::Base
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+  
+    
+      <dt class="r1">Extended by:</dt>
+      <dd class="r1">ActiveSupport::Concern</dd>
+      
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/transit/definitions/base.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Base module/functionality for any type of deliverable. Creates class
+attributes and relationships that all deliverable  type classes should
+implement.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#build_context_attributes%3D-instance_method" title="#build_context_attributes= (instance method)">- (Object) <strong>build_context_attributes=</strong>(hash) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Because mongoid requires the class type be the last value in a build 
+method, we override contexts_attributes= to ensure newly created contexts
+are of the proper class.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="build_context_attributes=-instance_method">
+  
+    - (<tt>Object</tt>) <strong>build_context_attributes=</strong>(hash) 
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Because mongoid requires the class type be the last value in a build 
+method, we override contexts_attributes= to ensure newly created contexts
+are of the proper class.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/transit/definitions/base.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_build_context_attributes='>build_context_attributes=</span><span class='lparen'>(</span><span class='id identifier rubyid_hash'>hash</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_hash'>hash</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_position'>position</span><span class='comma'>,</span> <span class='id identifier rubyid_attrs'>attrs</span><span class='op'>|</span>
+    <span class='id identifier rubyid_attrs'>attrs</span><span class='period'>.</span><span class='id identifier rubyid_stringify_keys!'>stringify_keys!</span>
+    <span class='kw'>next</span> <span class='kw'>if</span> <span class='id identifier rubyid_attrs'>attrs</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_field'>field</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_contexts'>contexts</span><span class='period'>.</span><span class='id identifier rubyid_detect'>detect</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_context'>context</span><span class='op'>|</span> 
+      <span class='id identifier rubyid_context'>context</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>===</span> <span class='id identifier rubyid_attrs'>attrs</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>id</span><span class='tstring_end'>'</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+    <span class='kw'>end</span>
+    
+    <span class='id identifier rubyid_field'>field</span> <span class='op'>||=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_contexts'>contexts</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_attrs'>attrs</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_attrs'>attrs</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>_type</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='op'>||</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>context</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_classify'>classify</span><span class='period'>.</span><span class='id identifier rubyid_constantize'>constantize</span><span class='rparen'>)</span>
+    
+    <span class='comment'># We have to use update attributes because mongoid sometimes won't persist
+</span>    <span class='comment'># translations on embededdd docs without it
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:translations</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_update_attributes'>update_attributes</span><span class='lparen'>(</span><span class='id identifier rubyid_attrs'>attrs</span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_field'>field</span><span class='period'>.</span><span class='id identifier rubyid_attributes'>attributes</span> <span class='op'>=</span> <span class='id identifier rubyid_attrs'>attrs</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+    
+    <div id="footer">
+  Generated on Fri Feb  3 00:08:28 2012 by 
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.7.5 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>

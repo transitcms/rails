@@ -7,9 +7,9 @@ a full (often well designed) admin interface and all.
 The goal of Transit is to be more developer-oriented, for use in situations where you still want to develop custom content managed applications, but avoid 
 having to do a lot of the same routine development thats common to most if not all content management systems.
 
-Transit operates around the concept that all content management can be broken down into two types of models (called deliverables): a Post or a Page. 
+Transit operates around the concept that all content management can be broken down into two basic types of models (called deliverables): a Post or a Page. 
 
-Each *deliverable*  can embed one or many `contexts` which are representations of a particular type of content included within that piece of deliverable content.
+Each *deliverable*  can embed one or many `contexts` which are representations of a particular type of content included within that deliverable.
 
 ### Posts
 
@@ -40,6 +40,17 @@ any number of attributes, and a `position` which defines the order in which that
 Instead of cramming content into some wysiwyg editor (which is generally good for nothing except butchering a well-designed layout), 
 multiple contexts can be created and chained together, limiting html/rich-text editing to basic formatting.
 
+For instance, a basic blog post can be broken down into a primary heading, and some body content. In terms of contexts, this can be broken down into a 
+`InlineText` and `TextBlock`. When creating your custom Blog cms, you could then specify that each time a new post is created, it should initially contain 
+these two contexts, as well as the order (ie: InlineText > TextBlock). When users create new content, they then have these two fields available to them. 
+
+The true benefit of contexts is in the output. Given the example above, you now have a way to cleanly output a blog post, with a proper heading (ie: h1) 
+and well formatted body copy. Output is left to the discretion of the developer, not the end-user.
+
+Should you want to provide additional functionality, any number of contexts can be added to a deliverable. Your users want to add video or audio to 
+their blog posts? No problem. In addition, since each context contains a `position` property, by simply sorting/and arranging each context, the 
+resulting output can be altered to whatever desired result.
+
 **Delivery**
 
 Content is delivered by using the `deliver` method in your views, passing a particular deliverable containing contexts.
@@ -49,21 +60,22 @@ Content is delivered by using the `deliver` method in your views, passing a part
 By default the helper will attempt to deliver content in one of 2 ways:
 
 1. If a `deliver` method exists on a context model, the result of that method will be output
-2. Using a pre-defined delivery block that, when passed a context and template object builds the necessary html to render that context. For example, to deliver an `Audio`
+2. Using a pre-defined delivery block that, when passed a context the necessary html to render that context. For example, to deliver an `Audio`
    context using Rails' built in audio tag helper:
 
-		Transit::Delivery.configure(:audio) do |context, template|
-			template.audio_tag(context.source)
+		Transit::Delivery.configure(:audio) do |context|
+			audio_tag(context.source)
 		end
 	
 Contexts
 -------
 
-There are 3 contexts included in the core engine:
+There are 4 basic contexts included in the core engine:
 
-1. **TextBlock**: Used to represent body copy / content. This is usually managed with a wysiwyg editor
-2. **Video**: Allows inserting video from multiple sources, whether file upload, youtube url, etc.
-3. **Audio**: Same function as video... but included separately to allow for more customization.
+1. **InlineText**: Text that is best represented by a single html node, such as a heading (h1, h2, h3, etc).
+2. **TextBlock**: Used to represent body copy / content. This is usually managed with a wysiwyg editor
+3. **Video**: Allows inserting video from multiple sources, whether file upload, youtube url, etc.
+4. **Audio**: Same function as video... but included separately to allow for more customization.
 
 ### Creating Custom Contexts
 

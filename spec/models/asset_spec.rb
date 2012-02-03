@@ -6,6 +6,8 @@ describe Asset do
     described_class.included_modules.should include(Paperclip::Glue)
   end
   
+  it{ should belong_to(:deliverable) }
+  
   describe "identificaton" do
     
     subject do

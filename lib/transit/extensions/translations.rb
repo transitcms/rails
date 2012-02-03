@@ -1,5 +1,10 @@
 module Transit
   module Extension
+    ##
+    # Adds functionality for translating attributes within models. 
+    # By stubbing these methods by default, external definitions or extensions can 
+    # call them regardless of whether translation is enabled or not.
+    #
     module Translations
     ##
     # Block to process translatable fields. If translations are enabled

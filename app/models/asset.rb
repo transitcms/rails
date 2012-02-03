@@ -1,10 +1,10 @@
-##
-# An asset is an uploaded file that may belong to one or more deliverables.
-# 
-#
 require 'paperclip'
 require 'mime/types'
 
+##
+# An asset is an uploaded file. Assets can be `standalone` or application-wide 
+# resources, or they may be attached directly to a deliverable
+# 
 class Asset
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -23,17 +23,28 @@ class Asset
   
   validates_attachment_presence :file
   
+  belongs_to    :deliverable, :polymorphic => true
+  
   before_save   :set_default_name
   before_create :set_default_file_type
   
+  ##
+  # Returns whether or not this asset is an image based on mime type
+  # 
   def image?
     !!(self.file_content_type =~ %r{^(image|(x-)?application)/(x-png|pjpeg|jpeg|jpg|png|gif)$})
   end
   
+  ##
+  # Returns whether or not this asset is a video based on mime type
+  # 
   def video?
     !!(self.file_content_type =~ %r{^(video)/.*$})
   end
   
+  ##
+  # Returns whether or not this asset is an audio file based on mime type
+  # 
   def audio?
     !!(self.file_content_type =~ %r{^(audio)/.*$})
   end
@@ -65,6 +76,10 @@ class Asset
     self.name = self.file_file_name.to_s
   end
   
+  ##
+  # Sets the file type of the uploaded asset by doing 
+  # a mime_type lookup of the files extension.
+  # 
   def set_default_file_type
     self.file_type = ::MIME::Types.type_for(self.file_file_name.to_s).first.media_type
   end

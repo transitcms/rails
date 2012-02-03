@@ -1,9 +1,14 @@
 module Transit
+  ##
+  # Adds support for defining extensions to be utilized by deliverables.
+  # These are useful for providing global methods or functionality that can
+  # easily be used within any deliverable resource. Sure.. you could just write 
+  # modules and include them, but this way is so much more Railsesque ;)
+  # 
   module Extension
     autoload :Attachments,   'transit/extensions/attachments'
     autoload :Translations,  'transit/extensions/translations'
     autoload :ContentBlocks, 'transit/extensions/content_blocks'
-    autoload :MediaContext,  'transit/extensions/media_context'
     
     class << self
       
@@ -18,12 +23,20 @@ module Transit
       
     end
     
+    ##
+    # Methods included by each deliverable to provide 
+    # extension loading functionality
+    # 
+    # @author brent
     module Loader
       ##
       # Deliverables can include a number of other packages and 
       # delivery options. To include them pass them to this method.
       #
       # @param [Array] *args Argument list of packages/extensions to apply to the deliverable 
+      # 
+      # @example Deliver a resource with attachments
+      #   deliver_with :attachments
       #
       def deliver_with(*args)
         args.map(&:to_s).map(&:camelize).each do |extname|
@@ -38,6 +51,9 @@ module Transit
       
     end
     
+    ##
+    # Raised when an extension is requested that does not exist.
+    # 
     class MissingExtensionError < ::Transit::Error    
     end
     

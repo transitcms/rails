@@ -1,6 +1,9 @@
 require "active_support/all"
 require "transit/version"
 
+##
+# Base module
+# 
 module Transit
   
   class << self
@@ -36,7 +39,6 @@ require "transit/definition"
 require "transit/hooks"
 require "transit/configuration"
 require "transit/extension"
-require "transit/extensions/core"
-require "transit/extensions/string"
+require "transit/support/all"
 require "transit/delivery"
 require "transit/engine"

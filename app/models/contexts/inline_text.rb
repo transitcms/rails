@@ -17,6 +17,6 @@ class InlineText < Context
   
 end
 
-Transit::Delivery.configure(:inline_text) do |context, manager|
-  manager.template.content_tag(context.node, context.body)
+Transit::Delivery.configure(:inline_text) do |context|
+  content_tag(context.node, context.body)
 end
