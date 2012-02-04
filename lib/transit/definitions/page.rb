@@ -23,12 +23,11 @@ module Transit
           field :description, :type => String,  :default => ""
           field :keywords,    :type => Array,   :default => []
         end
-        
-        field :published,   :type => Boolean, :default => false
+       
         field :slug,        :type => String,  :default => nil
         
         # Stores an array of paths/slugs based on the page's level in the tree
-        field :path,        :type => Array, :default => []
+        field :path, :type => Array, :default => []
 		    
 		    # Pages can always reference sub-pages etc
 		    define_method(:"#{self.name.pluralize.underscore}") do

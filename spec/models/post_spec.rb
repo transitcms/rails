@@ -10,7 +10,17 @@ describe Post do
     end
     
     it "applies the post fields" do
-      ['title', 'post_date', 'slug', 'teaser', 'published'].each do |field| 
+      ['title', 'slug', 'teaser'].each do |field| 
+        described_class.fields.keys.should include(field)
+      end
+    end
+    
+    it 'applies the publishing extension' do
+      described_class.included_modules.should include(Transit::Extension::Publishing)
+    end
+    
+    it 'applies the publishing fields' do
+      ['publish_date', 'published'].each do |field| 
         described_class.fields.keys.should include(field)
       end
     end
@@ -18,31 +28,13 @@ describe Post do
   end  
   
   describe "validations" do
-    
-    subject do
-      Post
-    end
-    
-    it{ should validate_presence_of(:title) }
-    it{ should validate_presence_of(:post_date) }
+
+    it{ Post.should validate_presence_of(:title) }
     
   end
-  
-  describe "published scope" do
-   
-    before(:all) do
-      Post.make!(:post_date => 1.year.ago.to_time, :published => true)
-      Post.make!(:post_date => 1.year.from_now.to_time, :published => true)
-      Post.make!(:post_date => 1.year.ago.to_time, :published => false)
-    end
     
-    it "only finds posts which are published and older than today" do
-      Post.published.count == 1
-    end
-    
-  end
   
-  describe "post properties" do
+  describe "publishing posts" do
     
     let!(:post) do
       @_post ||= Post.make!(:title => "a sample post")

@@ -7,19 +7,11 @@ describe "Transit configuration" do
     it "has a config method" do
       Transit.respond_to?(:config).should be_true
     end
-  
-    it "initializes a configuration class" do
-      Transit.config.should be_a(Transit::Configuration)
+    
+    it 'includes default properties' do
+      Transit.config.translate.should_not be_nil
     end
 
-  end
-  
-  describe "configuration options" do
-    
-    subject do
-      Transit.config
-    end
-    
   end
   
 end

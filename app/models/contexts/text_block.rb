@@ -4,12 +4,7 @@
 # 
 # 
 class TextBlock < Context
-
-  if Transit.config.enable_translations
-    enable_translation
-  end
-  
-  translates do
+  with_optional_translation do
     field :body, :type => HtmlContent, :default => ""
   end
 

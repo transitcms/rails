@@ -9,6 +9,7 @@ module Transit
     autoload :Attachments,   'transit/extensions/attachments'
     autoload :Translations,  'transit/extensions/translations'
     autoload :ContentBlocks, 'transit/extensions/content_blocks'
+    autoload :Publishing,    'transit/extensions/publishing'
     
     class << self
       
@@ -39,7 +40,9 @@ module Transit
       #   deliver_with :attachments
       #
       def deliver_with(*args)
-        args.map(&:to_s).map(&:camelize).each do |extname|
+        options = args.extract_options!.symbolize_keys!
+        [args, options.keys].flatten.compact.each do |arg|
+          extname = arg.to_s.camelize
           unless Transit::Extension.const_defined?(extname)
             raise Transit::Extension::MissingExtensionError.new("The extension #{extname} could not be found.")
           end

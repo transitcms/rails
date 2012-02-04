@@ -6,35 +6,42 @@ module Transit
     # call them regardless of whether translation is enabled or not.
     #
     module Translations
-    ##
-    # Block to process translatable fields. If translations are enabled
-    # Mongoid::Globalize is enabled and attributes are parsed for translation.
-    # If not, it is executed normally
-    # 
-    def with_optional_translation(&block)
-      translates do
+      extend ActiveSupport::Concern
+      
+      ##
+      # Block to process translatable fields within contexts. If translations are enabled
+      # Mongoid::Globalize is enabled and attributes are parsed for translation.
+      # This allows contexts to support translation on a class by class basis as well as
+      # inherit the translation properties of their parents.
+      # 
+      def with_optional_translation(&block)
+        if has_translation_support
+          self.send(:enable_translation)
+          self.send(:translates, &block)
+        else
+          block.call
+        end
+      end
+    
+      ##
+      # Stub for translation functionality. 
+      # This method is overridden with the functionality provided by Mongoid::Globalize
+      # 
+      def translates(&block)
         block.call
       end
-    end
     
-    ##
-    # Stub for translation functionality. 
-    # This method is overridden with the functionality provided by Mongoid::Globalize
-    # 
-    def translates(&block)
-      block.call
-    end
-    
-    ##
-    # Class method for enabling translations on any model
-    # 
-    def enable_translation
-      begin
-        include Mongoid::Globalize        
-      rescue LoadError
-        raise "Missing the mongoid_globalize gem. Please add it to your gemfile to translate models"
+      ##
+      # Class method for enabling translations on any model
+      # 
+      def enable_translation
+        begin
+          include Mongoid::Globalize
+          self.has_translation_support = true        
+        rescue LoadError
+          raise "Missing the mongoid_globalize gem. Please add it to your gemfile to translate models"
+        end
       end
-    end
     
     end # Translation
   end # Extension

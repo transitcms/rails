@@ -30,7 +30,7 @@ module Transit
         include Transit::Definition::Base
         
         self.delivers_as = type
-        self.delivery_options.merge!(options)
+        self.delivery_options.merge!(options.symbolize_keys!)
         
         self.enable_translation if self.delivery_options.translate == true
         

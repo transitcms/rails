@@ -17,8 +17,12 @@ module Transit
         # Stores a list of options for delivering this model
         class_attribute :delivery_options, :instance_writer => false
         self.delivery_options = ::ActiveSupport::OrderedOptions.new({
-          :translate => Transit.config.enable_translations
+          :translate => Transit.config.translate
         })
+        
+        ## Stub an attribute representing whether this specific class has translation support
+        class_attribute :has_translation_support
+        self.has_translation_support ||= false
 
         # All deliverables embed contexts which define the content each deliverable contains
         embeds_many :contexts, :as => :deliverable
@@ -31,7 +35,7 @@ module Transit
         alias :contexts_attributes= :build_context_attributes=
         
       end
-      
+       
       
       ##
       # Because mongoid requires the class type be the last value in a build 
@@ -57,6 +61,7 @@ module Transit
           end
         end
       end
+
       
     end # Transit
   end # Definition

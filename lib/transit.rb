@@ -5,31 +5,14 @@ require "transit/version"
 # Base module
 # 
 module Transit
-  
-  class << self
-    attr_accessor :config
+  include ActiveSupport::Configurable
     
-    ##
-    # @see transit/configuration.rb
-    # 
-    def config
-      @config ||= Configuration.new
-    end
-    
-    ##
-    # Configure options using a block
-    # 
-    # @example Configure translation support
-    # 
-    #   Transit.configure do |config|
-    #     config.enable_translations = true
-    #   end
-    # 
-    def configure
-      yield config
-    end
-    
-  end # eigen
+  ##
+  # Configure options using a block
+  # 
+  def configure
+    yield config
+  end
   
 end # Transit
 

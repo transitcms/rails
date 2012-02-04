@@ -3,6 +3,7 @@ source "http://rubygems.org"
 gem 'combustion', '~> 0.3.1', :group => :development
 
 group :test do
+  gem 'simplecov', :require => false
   gem 'rake'
   gem 'growl'
   gem 'guard', '0.8.8'

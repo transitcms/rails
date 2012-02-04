@@ -9,6 +9,9 @@ class Context
   include Mongoid::Document
   include Mongoid::Timestamps
   
+  class_attribute :has_translation_support
+  self.has_translation_support = Transit.config.translate
+  
   after_create :set_default_position
   
   field :position, :type => Integer

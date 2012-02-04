@@ -16,8 +16,20 @@ describe Page do
     should reference_and_be_referenced_in_many(:content_blocks)
   end
   
-  specify do
+  it 'creates a child getter based on the delivered class' do
     page.respond_to?(:pages).should be_true
+  end
+  
+  it 'creates a child setter based on the delivered class' do
+    page.respond_to?(:pages=).should be_true
+  end
+  
+  it 'creates a parent setter based on the delivered class' do
+    page.respond_to?(:page=).should be_true
+  end
+  
+  it 'creates a parent getter based on the delivered class' do
+    page.respond_to?(:page).should be_true
   end
   
   describe "validations" do
@@ -30,7 +42,7 @@ describe Page do
     it{ should validate_presence_of(:name) }
     it{ should validate_presence_of(:slug) }
     
-  end
+  end # validations
   
   describe "when delivered_as page" do
   
@@ -39,12 +51,12 @@ describe Page do
     end
     
     it "applies the page fields" do
-      ['title', 'slug', 'description', 'keywords', 'published'].each do |field| 
+      ['title', 'slug', 'description', 'keywords'].each do |field| 
         described_class.fields.keys.should include(field)
       end
     end
   
-  end
+  end # delivery
   
   describe "slug" do
     
@@ -60,7 +72,33 @@ describe Page do
       Page.make!(:title => "Test page", :slug => "//the-path").reload.slug.should == "the-path"
     end
     
-  end
+  end #slugs
+  
+  describe "scopes" do
+    
+    before(:all) do
+      Page.delete_all
+      @page     = Page.make!(:title => 'Un-Published Page', :slug => 'un-published-page')
+      @pub_page = Page.make!(:title => 'Published Page', :slug => 'published-page', :published => true, :page => @page)
+    end
+    
+    it ".top_level only finds pages that do not belong to another" do
+      Page.top_level.count.should == 1
+    end
+    
+    it ".published does not find un-published pages" do
+      Page.published.all.collect{ |p| p.id }.map(&:to_s).should_not include(@page.id.to_s)
+    end
+    
+    it '.published finds published pages' do
+      Page.published.all.collect{ |p| p.id }.map(&:to_s).should include(@pub_page.id.to_s)
+    end
+    
+    it '.from_path takes a url and finds pages by path' do
+      Page.from_path("un-published-page/published-page").first.should == @pub_page
+    end
+    
+  end # scopes
   
   describe "nesting pages" do
     
@@ -142,7 +180,7 @@ describe Page do
         tertiary.path.should == ['parent-page', 'sub-page', 'tertiary-page']
       end
       
-    end
+    end # tertiary
     
     describe "de-duping slugs" do
       
@@ -161,7 +199,7 @@ describe Page do
           @secpage.try(:destroy); @secpage = nil
         end
         
-      end
+      end # de-duping duplicate slugs
       
       context "when a child page's slug does not contain a parent" do
         
@@ -177,36 +215,10 @@ describe Page do
           @secpage2.try(:destroy); @secpage2 = nil
         end
         
-      end
-      
-      
-    end
-    
-    describe "top_level scope" do
-
-      it "only finds pages that do not belong to another" do
-        Page.top_level.count.should == 1
-      end
-      
-    end
-    
-    describe "published scope" do
-
-      before(:all) do
-        @page     = Page.make!(:title => 'Un-Published Page', :slug => 'un-published-page')
-        @pub_page = Page.make!(:title => 'Published Page', :slug => 'published-page', :published => true)
-      end
-
-      it 'does not find un-published pages' do
-        Page.published.all.collect{ |p| p.id }.map(&:to_s).should_not include(@page.id.to_s)
-      end
-      
-      it 'finds published pages' do
-        Page.published.all.collect{ |p| p.id }.map(&:to_s).should include(@pub_page.id.to_s)
-      end
-      
-    end
-    
+      end # de-duping safe
+            
+    end # de-duping
+       
   end
   
 end

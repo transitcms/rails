@@ -68,12 +68,16 @@
     
   
     
+      <dt class="r1">Includes:</dt>
+      <dd class="r1">ActiveSupport::Configurable</dd>
+      
+    
   
   
   
-    <dt class="r1 last">Defined in:</dt>
-    <dd class="r1 last">lib/transit.rb<span class="defines">,<br />
-  lib/transit/error.rb,<br /> lib/transit/hooks.rb,<br /> lib/transit/engine.rb,<br /> lib/transit/delivery.rb,<br /> lib/transit/extension.rb,<br /> lib/transit/definition.rb,<br /> lib/transit/deliverable.rb,<br /> lib/transit/configuration.rb,<br /> lib/transit/definitions/base.rb,<br /> lib/transit/definitions/page.rb,<br /> lib/transit/definitions/post.rb,<br /> lib/transit/extensions/attachments.rb,<br /> lib/transit/extensions/translations.rb,<br /> lib/transit/extensions/content_blocks.rb</span>
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/transit.rb<span class="defines">,<br />
+  lib/transit/hooks.rb,<br /> lib/transit/error.rb,<br /> lib/transit/engine.rb,<br /> lib/transit/version.rb,<br /> lib/transit/delivery.rb,<br /> lib/transit/extension.rb,<br /> lib/transit/definition.rb,<br /> lib/transit/deliverable.rb,<br /> lib/transit/configuration.rb,<br /> lib/transit/definitions/base.rb,<br /> lib/transit/definitions/page.rb,<br /> lib/transit/definitions/post.rb,<br /> lib/transit/extensions/publishing.rb,<br /> lib/transit/extensions/attachments.rb,<br /> lib/transit/extensions/translations.rb,<br /> lib/transit/extensions/content_blocks.rb</span>
 </dd>
   
 </dl>
@@ -82,7 +86,7 @@
 <h2>Overview</h2><div class="docstring">
   <div class="discussion">
     
-<p>Base module</p>
+<p>Setup default configuration options</p>
 
 
   </div>
@@ -98,42 +102,25 @@
     
    
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Transit/Configuration.html" title="Transit::Configuration (class)">Configuration</a></span>, <span class='object_link'><a href="Transit/Delivery.html" title="Transit::Delivery (class)">Delivery</a></span>, <span class='object_link'><a href="Transit/Engine.html" title="Transit::Engine (class)">Engine</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Transit/Delivery.html" title="Transit::Delivery (class)">Delivery</a></span>, <span class='object_link'><a href="Transit/Engine.html" title="Transit::Engine (class)">Engine</a></span>
     
   
 </p>
 
-
-
-
-  <h2>Class Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
-  <ul class="summary">
-    
-      <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#config-class_method" title="config (class method)">+ (Object) <strong>config</strong> </a>
-    
-
-    
-  </span>
+  <h2>Constant Summary</h2>
   
-  
-    
-    
-  
-  
-  
-  
+    <dl class="constants">
+      
+        <dt id="VERSION-constant" class="">VERSION =
+          
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0.1.0</span><span class='tstring_end'>&quot;</span></span></pre></dd>
+      
+    </dl>
   
 
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
 
-    
-  </ul>
+
 
 
 
@@ -145,29 +132,6 @@
     </h2>
 
     <ul class="summary">
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#configure-class_method" title="configure (class method)">+ (Object) <strong>configure</strong> {|config| ... }</a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Configure options using a block.</p>
-</div></span>
-  
-</li>
-
       
         <li class="public ">
   <span class="summary_signature">
@@ -241,132 +205,48 @@ class.</p>
       
     </ul>
   
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
 
-
-  <div id="class_attr_details" class="attr_details">
-    <h2>Class Attribute Details</h2>
-    
+    <ul class="summary">
       
-      <span id="config=-class_method"></span>
-      <span id="config-class_method"></span>
-      <div class="method_details first">
-  <p class="signature first" id="config-class_method">
-  
-    + (<tt>Object</tt>) <strong>config</strong> 
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#configure-instance_method" title="#configure (instance method)">- (Object) <strong>configure</strong> {|config| ... }</a>
     
 
-  </div>
-</div>
-<div class="tags">
+    
+  </span>
+  
+  
+  
+  
+  
   
 
-  <h3>See Also:</h3>
-  <ul class="see">
-    
-      <li>transit/configurationtransit/configuration.rb</li>
-    
-  </ul>
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Configure options using a block.</p>
+</div></span>
+  
+</li>
 
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
+      
+    </ul>
+  
 
 
-15
-16
-17</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/transit.rb', line 15</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_config'>config</span>
-  <span class='ivar'>@config</span> <span class='op'>||=</span> <span class='const'>Configuration</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-  </div>
-
+  
 
   <div id="class_method_details" class="method_details_list">
     <h2>Class Method Details</h2>
     
     
       <div class="method_details first">
-  <p class="signature first" id="configure-class_method">
-  
-    + (<tt>Object</tt>) <strong>configure</strong> {|config| ... }
-  
-
-  
-</p><div class="docstring">
-  <div class="discussion">
-    
-<p>Configure options using a block</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-  <div class="examples">
-    <h3>Examples:</h3>
-    
-      <h4><div class='inline'>
-<p>Configure translation support</p>
-</div></h4>
-      <pre class="example code">
-<span class='const'>Transit</span><span class='period'>.</span><span class='id identifier rubyid_configure'>configure</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_config'>config</span><span class='op'>|</span>
-  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_enable_translations'>enable_translations</span> <span class='op'>=</span> <span class='kw'>true</span>
-<span class='kw'>end</span></pre>
-    
-  </div>
-
-<h3>Yields:</h3>
-<ul class="yield">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt><span class='object_link'><a href="#config-class_method" title="Transit.config (method)">config</a></span></tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-28
-29
-30</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/transit.rb', line 28</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_configure'>configure</span>
-  <span class='kw'>yield</span> <span class='id identifier rubyid_config'>config</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <p class="signature " id="execute_hook-class_method">
+  <p class="signature first" id="execute_hook-class_method">
   
     + (<tt>Object</tt>) <strong>execute_hook</strong>(base, options, block) 
   
@@ -599,10 +479,68 @@ class.</p>
     
   </div>
 
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+    
+    
+      <div class="method_details first">
+  <p class="signature first" id="configure-instance_method">
+  
+    - (<tt>Object</tt>) <strong>configure</strong> {|config| ... }
+  
+
+  
+</p><div class="docstring">
+  <div class="discussion">
+    
+<p>Configure options using a block</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<h3>Yields:</h3>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>config</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+13
+14
+15</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/transit.rb', line 13</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_configure'>configure</span>
+  <span class='kw'>yield</span> <span class='id identifier rubyid_config'>config</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
 </div>
     
     <div id="footer">
-  Generated on Fri Feb  3 00:01:39 2012 by 
+  Generated on Fri Feb  3 16:31:59 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>

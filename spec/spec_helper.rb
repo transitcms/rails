@@ -4,6 +4,10 @@ require 'bundler/setup'
 
 Bundler.require :default, :development
 
+require 'simplecov'
+SimpleCov.start 'rails'
+
+
 require 'machinist'
 require 'machinist/mongoid'
 

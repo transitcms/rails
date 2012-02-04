@@ -226,7 +226,7 @@ Transit::Definition</p>
   <span class='id identifier rubyid_include'>include</span> <span class='const'>Transit</span><span class='op'>::</span><span class='const'>Definition</span><span class='op'>::</span><span class='const'>Base</span>
   
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_delivers_as'>delivers_as</span> <span class='op'>=</span> <span class='id identifier rubyid_type'>type</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_delivery_options'>delivery_options</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_delivery_options'>delivery_options</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_symbolize_keys!'>symbolize_keys!</span><span class='rparen'>)</span>
   
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_enable_translation'>enable_translation</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_delivery_options'>delivery_options</span><span class='period'>.</span><span class='id identifier rubyid_translate'>translate</span> <span class='op'>==</span> <span class='kw'>true</span>
   
@@ -248,7 +248,7 @@ Transit::Definition</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Feb  3 13:56:12 2012 by 
+  Generated on Fri Feb  3 16:32:00 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>

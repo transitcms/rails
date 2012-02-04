@@ -1,7 +1,9 @@
 require 'spec_helper'
 
+Transit.config.translate = true
+
 describe "Translated deliverables" do
-  
+
   subject do
     TranslatedPost
   end
@@ -13,67 +15,82 @@ describe "Translated deliverables" do
   it "embeds many translations" do
     subject.should embed_many(:translations)
   end
+ 
+  before(:all) do
+    @post = TranslatedPost.new(:title => "english title")
+    @post.save(:validate => false)
+  end
   
-  describe "proxying methods" do
+  let(:post) do
+    @post
+  end
+ 
+  describe "translated attributes" do
     
-    subject do
-      TranslatedPost.new
+    context 'when the default locale' do
+      
+      after do
+        I18n.locale = :en
+      end
+      
+      it 'translates attributes' do
+        post.title.should == "english title"
+      end
+      
+      it 'defines attributes by the locale' do
+        I18n.locale = :mx
+        post.title.should be_nil
+      end
+      
     end
     
-    
-    context "when translating" do
-    
+    context 'when a specific locale' do
+      
       before(:all) do
-        @post = TranslatedPost.new
-        @post.title = "English title"
-        @post.save(:validate => false)
+        I18n.locale = :mx
+        post.update_attributes(:title => 'spanish title')
       end
-    
-      let(:post) do
-        @post
-      end
-    
-      context "with the default :en locale" do
       
-        it "uses the default field for its data" do
-          post.title.should == "English title"
-        end
+      it 'translates attributes' do
+        post.title.should == 'spanish title'
+      end
       
+      it 'defines attributes by the current locale' do
+        I18n.locale = :en
+        post.title.should == 'english title'
       end
-    
-      context "with a :mx locale" do
-        
-        before(:all) do
-          I18n.locale = :mx
-          @post.title = "Spanish title"
-          @post.save(:validate => false)
-          @post = @post.reload
-        end
-        
-        it "uses the proxied translation for its data" do
-          post.title.should == "Spanish title"
-        end
-        
-        it "adds a translation for the specified locale" do
-          post.translations.count.should_not == 0
-        end
-        
-        context "when switching locale" do
-          
-          before(:all) do
-            I18n.locale = :en
-          end
-          
-          it "reverts to the default data" do
-            post.title.should == "English title"
-          end
-          
-        end
-        
-      end
-    
+      
     end
     
   end
+  
+  describe "context translations" do
+    
+    before(:all) do
+      I18n.locale = :en
+      @text = post.contexts.create({ :translated_body => "english content" }, TranslatedTextBlock)
+      post.reload.contexts.each(&:save)
+      text = post.contexts.first
+      I18n.locale = :mx
+      text.update_attributes({ :translated_body => "spanish content" })
+    end
+    
+    context "when has_translation_support is set to true" do
+      
+      it 'creates translations' do
+        @text.translations.should_not be_empty
+      end
+      
+      it 'translates the content' do
+        I18n.locale = :en
+        @text.reload.translated_body.should == "english content"
+        I18n.locale = :mx
+        @text.reload.translated_body.should == "spanish content"
+      end
+      
+    end 
+    
+  end
+  
   
 end

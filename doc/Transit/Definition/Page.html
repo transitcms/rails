@@ -215,13 +215,13 @@ keywords and descriptions.</p>
       <pre class="lines">
 
 
+91
 92
 93
-94
-95</pre>
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/transit/definitions/page.rb', line 92</span>
+      <pre class="code"><span class="info file"># File 'lib/transit/definitions/page.rb', line 91</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_full_path'>full_path</span>
   <span class='kw'>return</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_slug'>slug</span> <span class='kw'>if</span> <span class='lbracket'>[</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_path'>path</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -267,12 +267,12 @@ keywords and descriptions.</p>
       <pre class="lines">
 
 
+96
 97
-98
-99</pre>
+98</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/transit/definitions/page.rb', line 97</span>
+      <pre class="code"><span class="info file"># File 'lib/transit/definitions/page.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_pages?'>pages?</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='symbol'>:#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_pluralize'>pluralize</span><span class='period'>.</span><span class='id identifier rubyid_underscore'>underscore</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_published'>published</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span>
@@ -287,7 +287,7 @@ keywords and descriptions.</p>
 </div>
     
     <div id="footer">
-  Generated on Fri Feb  3 13:56:12 2012 by 
+  Generated on Fri Feb  3 16:32:00 2012 by 
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.7.5 (ruby-1.9.3).
 </div>
