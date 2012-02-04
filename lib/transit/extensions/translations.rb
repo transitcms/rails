@@ -15,7 +15,7 @@ module Transit
       # inherit the translation properties of their parents.
       # 
       def with_optional_translation(&block)
-        if has_translation_support
+        if self.has_translation_support
           self.send(:enable_translation)
           self.send(:translates, &block)
         else
