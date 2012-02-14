@@ -7,7 +7,3 @@ class EmbeddedContentBlock < Context
   delegate :deliver, :to => :content_block
   
 end
-
-Transit::Delivery.configure(:embedded_content_block) do |context|
-  deliver(context.content_block || ::ContentBlock.new)
-end

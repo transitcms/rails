@@ -13,7 +13,3 @@ class InlineText < Context
   
   field :node, type: String, default: "h2"  
 end
-
-Transit::Delivery.configure(:inline_text) do |context|
-  content_tag(context.node, context.body)
-end

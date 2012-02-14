@@ -12,4 +12,9 @@ module DeliveryHelper
     Transit::Delivery.new(resource, self).deliver    
   end  
   
+  def manage_delivery(resource, form, options = {})    
+    Transit::Delivery.new(resource, self).manage(form, options)
+  end
+  
+ 
 end

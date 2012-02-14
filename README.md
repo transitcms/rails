@@ -65,16 +65,9 @@ Content is delivered by using the `deliver` method in your views, passing a part
 
 	<%= deliver(@post) %>
 	
-By default the helper will attempt to deliver content in one of 2 ways:
 
-1. If a `deliver` method exists on a context model, the result of that method will be output
-2. Using a pre-defined delivery block that, when passed a context the necessary html to render that context. For example, to deliver an `Audio`
-   context using Rails' built in audio tag helper:
-
-		Transit::Delivery.configure(:audio) do |context|
-			audio_tag(context.source)
-		end
-	
+1. If a `deliver` method exists on a context model, the result of that method will be output, unless that method explicitly returns `false`
+2. Rendering a partial found under `app/views/transit/contexts/_context_class.html.erb`.
 
 Contexts
 --------------------------

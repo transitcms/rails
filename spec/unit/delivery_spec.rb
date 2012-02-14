@@ -6,32 +6,12 @@ describe Transit::Delivery, type: :view do
     Transit::Delivery.new(item, view).deliver
   end
   
-  before do
-    Transit::Delivery.configure(:audio) do |obj|
-      obj.is_a?(Audio).should == true
-      content_tag(:div, "", :data => { :source => obj.source })
-    end
-  end
-  
   let(:audio) do
     Audio.new(:source => 'www.test.com/something.mp3')
   end
   
   let(:text) do
     TextBlock.new(:body => "<p>My text is awesome</p>")
-  end
-  
-  describe 'configuration' do
-  
-    it "has a configure method" do
-      Transit::Delivery.respond_to?(:configure).should be_true
-    end
-
-    it "accepts a name and proc and stores it" do
-      Transit::Delivery.configure(:test){ |obj| }
-      Transit::Delivery.delivery_methods['test'].should be_a(Proc)
-    end
-    
   end
   
   describe "an instance" do
@@ -50,7 +30,7 @@ describe Transit::Delivery, type: :view do
     end
     
     it 'renders in the scope of the current view' do
-      deliver_item(audio).should == "<div data-source=\"#{audio.source}\"></div>" 
+      deliver_item(audio).should == "<audio src=\"#{audio.source}\" data-context-id=\"#{audio.id.to_s}\" controls></audio>" 
     end
     
     context 'when no delivery is configured for a context' do
@@ -58,6 +38,14 @@ describe Transit::Delivery, type: :view do
       it 'raises an undeliverable context error' do
         lambda{ deliver_item(UndeliverableContext.new) }.should 
           raise_error(Transit::Delivery::UndeliverableContextError)
+      end
+      
+    end
+    
+    context 'when a partial for the context is found' do
+      
+      it 'renders the partial for the delivery' do
+        deliver_item(InlineTextWithPartial.new(:body => 'Some Heading')).should == "<h2>Some Heading</h2>"
       end
       
     end

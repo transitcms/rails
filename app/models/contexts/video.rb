@@ -14,10 +14,3 @@ class Video < MediaContext
   end
   
 end
-
-Transit::Delivery.configure(:video) do |context|
-  video_tag(context.source.to_s,
-    :data => { 
-      :context_id   => context.id.to_s
-    }).html_safe
-end

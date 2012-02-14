@@ -10,7 +10,3 @@ class ContentBlock
   embeds_many :contexts, :as => :deliverable
   
 end
-
-Transit::Delivery.configure(:content_block) do |context|
-  deliver(context)
-end

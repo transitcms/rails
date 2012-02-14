@@ -4,12 +4,16 @@ describe "Extensions" do
   
   describe "Loader" do
     
-    it "creates a deliver_with method for activating extensions" do
-      Post.respond_to?(:deliver_with).should be_true
-    end
+    describe 'extension methods' do
+
+      it "includes .deliver_with" do
+        Post.respond_to?(:deliver_with).should be_true
+      end
     
-    it "creates an add_extension alias for activating extensions" do
-      Post.respond_to?(:add_extension).should be_true
+      it "alias's .add_extension" do
+        Post.respond_to?(:add_extension).should be_true
+      end
+    
     end
     
   end
@@ -39,5 +43,17 @@ describe "Extensions" do
     
   end # extensions
   
+  
+  describe "configuring extensions" do
+    
+    before do
+      Post.send(:deliver_with, :publishing)
+    end
+    
+    it 'adds configuration options to the model' do
+      
+    end
+    
+  end # configuring
   
 end

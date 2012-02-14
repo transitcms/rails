@@ -8,25 +8,13 @@ describe DeliveryHelper, :type => :helper do
     @audio = @post.contexts.build({ :position => 1, :source => "somefile.mp3" }, Audio)
     @post.save
   end
-  Audio
-  
-  before do
-    Transit::Delivery.configure(:audio) do |context|
-      content_tag(:div, "", :class =>  "audio-player", 
-        :data => { 
-          :context_id   => context.id.to_s, 
-          :context_type => "audio", 
-          :source       => context.source 
-        }).html_safe
-    end
-  end
   
   let(:body_copy) do
     "<p>sample text body</p>"
   end
   
   let(:audio_body) do
-    %Q{<div class="audio-player" data-context-id="#{@audio.id.to_s}" data-context-type="audio" data-source="somefile.mp3"></div>}
+    %Q{<audio src="somefile.mp3" data-context-id="#{@audio.id.to_s}" controls></audio>}
   end
   
   it "delivers contexts in order of position" do

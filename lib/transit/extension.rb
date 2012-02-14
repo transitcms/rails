@@ -22,13 +22,21 @@ module Transit
         self.send(:autoload, name.to_sym, path)
       end
       
+      ##
+      # Creates config accessors for a particular extension, within 
+      # the included class. This allows options to be set on the model level 
+      # with fallbacks to the global configuration.
+      # 
+      def setup(klass, *methods)
+        
+      end
+      
     end
     
     ##
     # Methods included by each deliverable to provide 
     # extension loading functionality
     # 
-    # @author brent
     module Loader
       ##
       # Deliverables can include a number of other packages and 

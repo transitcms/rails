@@ -5,6 +5,9 @@ require "transit/version"
 # Base module
 # 
 module Transit
+  module Support
+  end
+  
   include ActiveSupport::Configurable
     
   ##

@@ -20,5 +20,8 @@ module Transit
   # When using the publishing extension, should a publish_date be used?
   # 
   config.publish_with_date = true
+  
+  # When in management mode, the tag that wraps each context when output.
+  config.field_wrapper = :li
     
 end
