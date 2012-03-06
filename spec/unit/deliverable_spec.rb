@@ -11,6 +11,12 @@ describe "A Deliverable" do
     Deliverable
   end
   
+  it 'registers itself on Transit.deliverables' do
+    Deliverable
+    Transit.deliverables['Post'].should be_a(Array)
+    Transit.deliverables['Post'].should include('Deliverable')
+  end
+  
   describe "delivery options" do
     
     it "creates a delivery_options class attribute" do

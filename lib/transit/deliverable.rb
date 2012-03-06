@@ -38,7 +38,13 @@ module Transit
           raise Transit::Definition::MissingDefinitionError
         end
         
-        include Transit::Definition.const_get(type.to_s.classify)        
+        include Transit::Definition.const_get(type.to_s.classify)
+        
+        # register the deliverable class
+        delivery = type.to_s.classify
+        Transit.deliverables[delivery] ||= []
+        Transit.deliverables[delivery] |= [self.name.to_s]
+        
         Transit.run_definition_hooks(:"#{type.to_s}", self)
         
       end

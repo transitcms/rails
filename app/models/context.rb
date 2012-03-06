@@ -27,4 +27,12 @@ class Context
     self.set('position', self._parent.contexts.count.to_i)
   end
   
+  def context_type
+    self.class.name.to_s
+  end
+  
+  def as_json(options = {})
+    super(options).merge!(:id => self.id, :_type => self.context_type, :position => self.position)
+  end
+  
 end

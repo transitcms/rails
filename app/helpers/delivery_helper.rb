@@ -8,13 +8,8 @@ module DeliveryHelper
   # Takes a deliverable resource, loops through its contexts 
   # and returns the resulting output.
   # 
-  def deliver(resource)
-    Transit::Delivery.new(resource, self).deliver    
-  end  
-  
-  def manage_delivery(resource, form, options = {})    
-    Transit::Delivery.new(resource, self).manage(form, options)
-  end
-  
+  def deliver(resource, options = {})    
+    Transit::Delivery.new(resource, self, options).deliver
+  end 
  
 end

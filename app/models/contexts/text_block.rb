@@ -5,7 +5,7 @@
 # 
 class TextBlock < Context
   with_optional_translation do
-    field :body, :type => HtmlContent, :default => ""
+    field :body, :type => HtmlContent, :default => "<p>type content here</p>"
   end
 
   ##
@@ -15,6 +15,11 @@ class TextBlock < Context
   # 
   def deliver
     self.body.to_s.html_safe
+  end
+  
+  def as_json(options = {})
+    options.merge!({ :only => [:body] })
+    super(options)
   end
 
 end

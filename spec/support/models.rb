@@ -7,5 +7,5 @@ end
 class UndeliverableContext < Context
 end
 
-class InlineTextWithPartial < InlineText
+class InlineTextWithPartial < HeadingText
 end
