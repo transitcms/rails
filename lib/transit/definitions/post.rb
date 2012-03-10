@@ -14,10 +14,8 @@ module Transit
       extend ActiveSupport::Concern
       
       included do
-        translates do
-          field :title,  :type => String
-          field :teaser, :type => String
-        end
+        field :title,  :localize => has_translation_support, :type => String
+        field :teaser, :localize => has_translation_support, :type => String
 
         field :slug,       :type => String        
 

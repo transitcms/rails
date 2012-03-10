@@ -4,9 +4,7 @@
 # 
 # 
 class TextBlock < Context
-  with_optional_translation do
-    field :body, :type => HtmlContent, :default => "<p>type content here</p>"
-  end
+  field :body, :type => HtmlContent, :default => "<p>type content here</p>", :localize => has_translation_support
 
   ##
   # Contexts are delivered either internally or via helper method. 

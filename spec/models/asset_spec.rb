@@ -1,12 +1,14 @@
 require 'spec_helper'
 
 describe Asset do
-
+  
   it "includes Paperclip::Glue" do
     described_class.included_modules.should include(Paperclip::Glue)
   end
   
-  it{ should belong_to(:deliverable) }
+  it 'belongs to a deliverable' do
+    Asset.should belong_to(:deliverable)
+  end
   
   describe "identificaton" do
     

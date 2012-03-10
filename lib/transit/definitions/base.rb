@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Transit
   module Definition
     ##
@@ -16,9 +18,6 @@ module Transit
 
         # Stores a list of options for delivering this model
         class_attribute :delivery_options, :instance_writer => false
-        self.delivery_options = ::ActiveSupport::OrderedOptions.new({
-          :translate => Transit.config.translate
-        })
         
         ## Stub an attribute representing whether this specific class has translation support
         class_attribute :has_translation_support
@@ -32,7 +31,7 @@ module Transit
         
         # Override nested_attributes to ensure _type is properly set
         accepts_nested_attributes_for :contexts, :allow_destroy => true
-        alias :contexts_attributes= :build_context_attributes=
+        #alias :contexts_attributes= :build_context_attributes=
         
       end
        

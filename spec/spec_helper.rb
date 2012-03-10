@@ -19,6 +19,7 @@ ActiveSupport::Dependencies.log_activity = true
 # Avoid preloading models
 require 'rails/mongoid'  
 require 'rspec/rails'
+require 'mongoid-rspec'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 

@@ -16,15 +16,13 @@ module Transit
         include Mongoid::Tree
         include Mongoid::Tree::Traversal
         include Mongoid::Tree::Ordering
-        
-        translates do
-          field :name,        :type => String,  :default => "Un-named Page"
-          field :title,       :type => String,  :default => ""        
-          field :description, :type => String,  :default => ""
-          field :keywords,    :type => Array,   :default => []
-        end
+
+        field :name,        :type => String, :localize => has_translation_support
+        field :title,       :type => String, :localize => has_translation_support
+        field :description, :type => String, :localize => has_translation_support
+        field :keywords,    :type => Array,  :default => []
        
-        field :slug,        :type => String,  :default => nil
+        field :slug, :type => String,  :default => nil
         
         # Stores an array of paths/slugs based on the page's level in the tree
         field :path, :type => Array, :default => []
