@@ -19,6 +19,10 @@ class MediaContext < Context
     self.asset.file.url(:original)
   end
   
+  def source?
+    (source.nil? or source.to_s.blank?)
+  end
+  
   def as_json(options = {})
     options.merge!({ :only => [:asset_id, :source, :media_type ]})
     super(options)

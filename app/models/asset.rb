@@ -28,6 +28,9 @@ class Asset
   before_save   :set_default_name
   before_create :set_default_file_type
   
+  scope :images, where(:file_type => 'image')
+  scope :files, excludes(:file_type => 'image')
+  
   ##
   # Returns whether or not this asset is an image based on mime type
   # 
