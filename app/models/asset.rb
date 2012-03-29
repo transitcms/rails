@@ -70,16 +70,16 @@ class Asset
     self.created_at.strftime("%B %d, %Y")
   end
   
-  private
-  
   def as_json(options = {})
-    super(options).merge!(:id => self.id, 
-      :file_type  => self.file_type, 
+    options.merge!(:only => [:file_type], :methods => [:urls])
+    super(options).merge!(
+      :id         => self.id,
       :url        => (self.file.file? ? self.file.url(:original) : nil), 
-      :methods    => [:urls], 
       :image      => image?,
       :filename   => self.file_file_name)
   end
+  
+  private
   
   ##
   # Allow assigning a name attribute to an asset for easier identification
