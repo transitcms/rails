@@ -72,6 +72,15 @@ class Asset
   
   private
   
+  def as_json(options = {})
+    super(options).merge!(:id => self.id, 
+      :file_type  => self.file_type, 
+      :url        => (self.file.file? ? self.file.url(:original) : nil), 
+      :methods    => [:urls], 
+      :image      => image?,
+      :filename   => self.file_file_name)
+  end
+  
   ##
   # Allow assigning a name attribute to an asset for easier identification
   # 
