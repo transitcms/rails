@@ -5,7 +5,14 @@
 # 
 class TextBlock < Context
   field :body, :type => HtmlContent, :default => "<p>type content here</p>", :localize => has_translation_support
-
+  
+  ##
+  # Sanitize the body content if enabled.
+  # 
+  if Transit.config.sanitize_html_content == true
+    deliver_with :html_sanitization
+  end
+  
   ##
   # Contexts are delivered either internally or via helper method. 
   # If the deliver method exists on a resource, it is used. 

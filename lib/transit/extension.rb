@@ -6,11 +6,11 @@ module Transit
   # modules and include them, but this way is so much more Railsesque ;)
   # 
   module Extension
-    autoload :Attachments,   'transit/extensions/attachments'
-    autoload :Translations,  'transit/extensions/translations'
-    autoload :ContentBlocks, 'transit/extensions/content_blocks'
-    autoload :Publishing,    'transit/extensions/publishing'
-    
+    autoload :Attachments,      'transit/extensions/attachments'
+    autoload :Translations,     'transit/extensions/translations'
+    autoload :ContentBlocks,    'transit/extensions/content_blocks'
+    autoload :Publishing,       'transit/extensions/publishing'
+
     class << self
       
       ##

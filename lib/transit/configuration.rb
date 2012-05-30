@@ -23,5 +23,5 @@ module Transit
   
   # When in management mode, the tag that wraps each context when output.
   config.field_wrapper = :li
-    
+
 end

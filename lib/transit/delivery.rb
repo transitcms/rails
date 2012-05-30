@@ -46,7 +46,7 @@ module Transit
           template.concat(deliver_context(context))
         end
       end
-      response.html_safe
+      response.to_s.html_safe
     end
  
     private

@@ -77,6 +77,8 @@ GEM
     i18n (0.6.0)
     journey (1.0.3)
     json (1.6.5)
+    loofah (1.2.1)
+      nokogiri (>= 1.4.4)
     machinist (2.0)
     mail (2.4.3)
       i18n (>= 0.4.0)
@@ -95,6 +97,7 @@ GEM
     mongoid-tree (0.7.0)
       mongoid (~> 2.0)
     multi_json (1.1.0)
+    nokogiri (1.5.2)
     paperclip (2.7.0)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
@@ -165,10 +168,12 @@ DEPENDENCIES
   growl
   guard (= 0.8.8)
   guard-rspec
+  loofah (~> 1.2)
   machinist (~> 2.0)
   machinist_mongo!
   mocha (>= 0.10.0)
   mongoid-rspec!
+  nokogiri (>= 1.4.4)
   rake
   rspec (>= 2.7.0)
   rspec-rails (>= 2.7.0)
