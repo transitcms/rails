@@ -8,3 +8,7 @@ Post.blueprint do
   title { "Sample Post Number #{sn}" }
   post_date{ Date.today }
 end
+
+ContentBlock.blueprint do
+  name { "Content block #{sn}"}
+end

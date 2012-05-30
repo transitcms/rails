@@ -2,8 +2,24 @@ require 'rubygems'
 require 'bundler'
 require 'bundler/setup'
 
+# These environment variables can be set if wanting to test against a database
+# that is not on the local machine.
+ENV["TRANSIT_SPEC_HOST"] ||= "localhost"
+ENV["TRANSIT_SPEC_PORT"] ||= "27017"
+
+# These are used when creating any connection in the test suite.
+HOST = ENV["TRANSIT_SPEC_HOST"]
+PORT = ENV["TRANSIT_SPEC_PORT"]
+
 Bundler.require :default, :development
 
+Mongoid.configure do |config|
+  database = Mongo::Connection.new(HOST, PORT).db(ENV["CI"] ? "transitcms_test_#{Process.pid}" : "transitcms_test")
+  config.master = database
+  config.logger = nil
+end
+
+require 'mongoid'
 require 'simplecov'
 SimpleCov.start 'rails'
 
