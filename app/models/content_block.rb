@@ -14,12 +14,11 @@ require File.join(File.dirname(__FILE__), 'context.rb')
 class ContentBlock
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Transit::Definition::Base
   
   field :name,            :type => String,  :default => "content_block"
   field :content_enabled, :type => Boolean, :default => true
   field :removable,       :type => Boolean, :default => true
-  
-  embeds_many :contexts, :as => :deliverable
   
   private
   
