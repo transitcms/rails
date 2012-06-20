@@ -50,7 +50,8 @@ module Transit
 		    
 		    has_and_belongs_to_many :content_blocks
 		    
-		    validates_presence_of :title, :name, :slug
+		    validates_presence_of :title, :name
+		    validates_presence_of :slug, :allow_blank => true
       end
       
       ##
