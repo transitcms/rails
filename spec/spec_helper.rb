@@ -12,17 +12,16 @@ HOST = ENV["TRANSIT_SPEC_HOST"]
 PORT = ENV["TRANSIT_SPEC_PORT"]
 
 Bundler.require :default, :development
+require 'mongoid'
 
 Mongoid.configure do |config|
-  database = Mongo::Connection.new(HOST, PORT).db(ENV["CI"] ? "transitcms_test_#{Process.pid}" : "transitcms_test")
-  config.master = database
-  config.logger = nil
+  config.connect_to(ENV["CI"] ? "transitcms_test_#{Process.pid}" : "transitcms_test")
 end
 
-require 'mongoid'
+Mongoid.logger = nil
+
 require 'simplecov'
 SimpleCov.start 'rails'
-
 
 require 'machinist'
 require 'machinist/mongoid'
@@ -40,11 +39,9 @@ require 'mongoid-rspec'
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
-  config.mock_with :mocha
+  config.mock_with :rspec
   config.include Mongoid::Matchers
-  config.after :suite do
-    Mongoid.master.collections.select do |collection|
-      collection.name !~ /system/
-    end.each(&:drop)
+  config.after :all do
+    Mongoid::Config.purge!
   end
 end

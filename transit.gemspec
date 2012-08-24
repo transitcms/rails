@@ -19,15 +19,15 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   
   s.add_dependency("rails", ">= 3.1")
-  s.add_dependency("mongoid", "~> 3.0")
+  s.add_dependency("mongoid", "~> 3.0.1")
   s.add_dependency("paperclip", "~> 3.1")
-  s.add_dependency("mongoid-tree", "~> 0.6")
+  s.add_dependency("mongoid-tree", "~> 1.0.0")
   
   s.add_development_dependency('combustion', '~> 0.3.1')
-  s.add_development_dependency("rspec", ">= 2.10.0")
+  s.add_development_dependency("rspec", ">= 2.11.0")
   s.add_development_dependency("rspec-rails", ">= 2.11.0")
-  s.add_development_dependency("rspec-rails-mocha", ">= 0.3.1")
-  s.add_development_dependency("mocha", ">= 0.10.0")
+  # s.add_development_dependency("rspec-rails-mocha", ">= 0.3.1")
+  # s.add_development_dependency("mocha", ">= 0.10.0")
   s.add_development_dependency("machinist", "~> 2.0")
   # s.add_development_dependency("loofah", "~> 1.2")
   # s.add_development_dependency("nokogiri", ">= 1.4.4")

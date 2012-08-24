@@ -1,7 +1,0 @@
-test:
-  host: localhost
-  database: transitcms_test
-development:
-  host: localhost
-  database: transitcms_test
-  

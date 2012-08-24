@@ -8,25 +8,44 @@ require 'mongoid'
 # 
 # 
 class HtmlContent < String
-  include ::Mongoid::Fields::Serializable
 
   # @private
   def initialize(strval) #:nodoc:
     self.concat strval
   end
   
-  ##
-  # Called on retrieval from the database.
-  # 
-  def deserialize(strval)
-    self.replace strval
-  end
-
-  ##
-  # Called on save to the database.
-  # 
-  def serialize(strval)
-    strval
+  def mongoize
+    self
   end
   
+  class << self
+    ##
+    # Called on retrieval from the database.
+    # 
+    def demongoize(strval)
+      HtmlContent.new(strval)
+    end
+  
+    ##
+    # Converts the object that was supplied to a criteria and converts it
+    # into a database friendly form.
+    #
+    def evolve(strval)
+      case strval
+      when HtmlContent then strval.mongoize
+      else strval
+      end
+    end
+
+    ##
+    # Called on save to the database.
+    # 
+    def mongoize(strval)
+      case strval
+      when HtmlContent then strval.mongoize
+      when String then HtmlContent.new(strval).mongoize
+      else strval
+      end
+    end
+  end  
 end

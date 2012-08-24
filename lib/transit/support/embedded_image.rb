@@ -4,8 +4,45 @@ require 'mongoid'
 # These images can then be used as data uris inline in html or served via rack handler.
 # 
 class EmbeddedImage
-  include ::Mongoid::Fields::Serializable
   attr_reader :data
+  
+  def mongoize
+    ::Base64.encode64(::Marshal.dump(self))
+  end
+  
+  class << self
+    ##
+    # Called on retrieval from the database.
+    # 
+    def demongoize(value)
+      return self.new unless value
+      ::Marshal.load(::Base64.decode64(value)) 
+    end
+  
+    ##
+    # Converts the object that was supplied to a criteria and converts it
+    # into a database friendly form.
+    #
+    def evolve(image_data)
+      case image_data
+      when EmbeddedImage then image_data.mongoize
+      else image_data
+      end
+    end
+
+    ##
+    # Called on save to the database.
+    # 
+    def mongoize(image_data)
+      case image_data
+      when EmbeddedImage then image_data.mongoize
+      else 
+        img = EmbeddedImage.new
+        img.set_data(image_data)
+        img.mongoize
+      end
+    end
+  end  
   
   ##
   # Acts as a `middleware` to provide compatability
@@ -34,22 +71,6 @@ class EmbeddedImage
     else
       @data = ImageData.new(image_data)
     end
-  end
-  
-  ##
-  # Called on load from the database
-  # 
-  def deserialize(image_data)
-    return self.class.new unless image_data
-    ::Marshal.load(::Base64.decode64(image_data)) 
-  end
-
-  ##
-  # Called on store to the database
-  #
-  def serialize(image_data)
-    set_data(image_data)
-    ::Base64.encode64(::Marshal.dump(self))
   end
   
   ##
