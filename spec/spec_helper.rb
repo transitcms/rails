@@ -41,7 +41,8 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 RSpec.configure do |config|
   config.mock_with :rspec
   config.include Mongoid::Matchers
-  config.after :all do
-    Mongoid::Config.purge!
+  config.before(:each) do
+    Mongoid.purge!
+    Mongoid::IdentityMap.clear
   end
 end

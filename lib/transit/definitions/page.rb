@@ -1,4 +1,4 @@
-require 'mongoid/tree'
+require 'mongoid-ancestry'
 
 module Transit
   module Definition
@@ -13,9 +13,7 @@ module Transit
       extend ActiveSupport::Concern
       
       included do
-        include Mongoid::Tree
-        include Mongoid::Tree::Traversal
-        include Mongoid::Tree::Ordering
+        include Mongoid::Ancestry
 
         field :name,        :type => String, :localize => has_translation_support
         field :title,       :type => String, :localize => has_translation_support
@@ -24,17 +22,20 @@ module Transit
        
         field :slug, :type => String,  :default => nil
         
+        has_ancestry :orphan_strategy => :rootify, :cache_depth => true
+        field :ancestry_depth, :type => Integer, :default => 0
+        
         # Stores an array of paths/slugs based on the page's level in the tree
-        field :path, :type => Array, :default => []
-		    
-		    # Pages can always reference sub-pages etc
-		    define_method(:"#{self.name.pluralize.underscore}") do
-		      self.children
-	      end
-	      
-	      define_method(:"#{self.name.pluralize.underscore}=") do |kids|
-		      self.children  = kids
-	      end
+        field :slug_map,  :type => Array, :default => []
+        
+        # Pages can always reference sub-pages etc
+        define_method(:"#{self.name.pluralize.underscore}") do
+          self.children
+        end
+        
+        define_method(:"#{self.name.pluralize.underscore}=") do |kids|
+          self.children  = kids
+        end
         
         define_method(:"#{self.name.underscore}") do
           self.parent
@@ -43,15 +44,14 @@ module Transit
         define_method(:"#{self.name.underscore}=") do |owner|
           self.parent = owner
         end
-		    		    
-		    before_save :sanitize_path_names
-		    before_save :generate_paths
-		    before_destroy :nullify_children
-		    
-		    has_and_belongs_to_many :content_blocks
-		    
-		    validates_presence_of :title, :name
-		    validates_presence_of :slug, :allow_blank => true
+                
+        before_save :sanitize_path_names
+        before_validation :cache_depth
+        before_save :generate_paths
+        has_and_belongs_to_many :content_blocks
+        
+        validates_presence_of :title, :name
+        validates_presence_of :slug, :allow_blank => true
       end
       
       ##
@@ -70,8 +70,8 @@ module Transit
         # Accepts a url fragment and returns the corresponding page.
         # @param [String] path The url fragment
         # 
-        def from_path(path)
-          where(path: path.split("/"))
+        def from_path(p)
+          where(:slug_map => p.split("/"))
         end
         
         ##
@@ -88,8 +88,8 @@ module Transit
       # @return [String] The full path
       # 
       def full_path
-        return self.slug if [self.path].flatten.compact.empty?
-        self.path.dup.join("/")
+        return self.slug if [self.slug_map].flatten.compact.empty?
+        self.slug_map.dup.join("/")
       end
       
       def pages?
@@ -105,7 +105,8 @@ module Transit
       # 
       #  
       def generate_paths
-        self.path = self.ancestors_and_self.collect(&:slug).map do |part|
+        parts = [self.ancestors(:to_depth => self.depth).collect(&:slug), self.slug].flatten.compact
+        self.slug_map = parts.map do |part|
           _sanitize_uri_fragment(part)
         end
       end
@@ -119,11 +120,11 @@ module Transit
         self.slug  = _sanitize_uri_fragment(self.slug)                
         unless self.parent.nil?
           slug_parts   = self.slug.to_s.split("/").compact
-          parent_parts = self.parent.path.dup
+          parent_parts = self.parent.slug_map.dup
           self.slug    = slug_parts.drop_while{ |part| part == parent_parts.shift }.join("/")
         end
-        unless [self.path].flatten.compact.empty?
-          self.path.map!{ |part| _sanitize_uri_fragment(part) }
+        unless [self.slug_map].flatten.compact.empty?
+          self.slug_map.map!{ |part| _sanitize_uri_fragment(part) }
         end
       end
 

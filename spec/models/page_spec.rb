@@ -96,23 +96,20 @@ describe Page do
   end #slugs
   
   describe "scopes" do
-    
-    before do
-      Page.delete_all
-    end
-    
+   
     let!(:parent_page) do
-      Page.make!(
+      Page.create(
         :title => 'Un-Published Page', 
+        :name  => 'Unpub Page',
         :slug => 'un-published-page',
-        :published => false,
-        :page => nil
+        :published => true
       )
     end
     
     let!(:pub_page) do
-      Page.make!(
+      Page.create(
         :title => 'Published Page', 
+        :name  => 'Pub Page',
         :slug => 'published-page', 
         :published => true, 
         :page => parent_page
@@ -120,10 +117,10 @@ describe Page do
     end
     
     describe '#top_level page scope' do
-      
+    
       it "only finds pages that do not belong to another" do
         Page.top_level.count
-          .should eq 1
+          .should eq 2
       end
     end    
     
@@ -224,8 +221,8 @@ describe Page do
           .should eq "parent-page/sub-page"
       end
       
-      it "stores all parent paths in the path array" do
-        sub_page.path
+      it "stores all parent paths in the slug_map array" do
+        sub_page.slug_map
           .should eq ['parent-page', 'sub-page']
       end
     end
@@ -260,8 +257,8 @@ describe Page do
           .should eq "parent-page/sub-page/tertiary-page"
       end
       
-      it "stores all parent paths in the path array" do
-        tertiary.path
+      it "stores all parent paths in the slug_map array" do
+        tertiary.slug_map
           .should eq [
               'parent-page', 
               'sub-page', 
@@ -283,7 +280,7 @@ describe Page do
         end
         
         it "removes the parent's slug from the child" do
-          secondary.path
+          secondary.slug_map
             .should eq ['parent-page', 'dupetest-page']
         end
       end # de-duping duplicate slugs
@@ -299,7 +296,7 @@ describe Page do
         end
         
         it "does not modify the slug" do
-          nodupe.path
+          nodupe.slug_map
             .should eq [
                 'parent-page', 
                 'random-page/dupetest-page'

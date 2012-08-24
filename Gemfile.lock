@@ -1,22 +1,17 @@
 GIT
-  remote: git://github.com/kristianmandrup/machinist_mongo.git
-  revision: 51861650bc7ec1904691f402aaaeb7562928d76d
+  remote: git://github.com/brentkirby/machinist_mongo.git
+  revision: e27af6f311dcea777e28ece9fd162745c96df555
   specs:
     machinist_mongo (2.0.1)
       machinist (>= 2.0.0)
-      machinist (>= 2.0.0)
-      mongo (>= 1.6.2)
-      mongo_mapper (>= 0.11.1)
-      mongoid (>= 2.0.0)
       rake
-      rspec
 
 PATH
   remote: .
   specs:
     transit (0.1.0)
       mongoid (~> 3.0.1)
-      mongoid-tree (~> 1.0.0)
+      mongoid-ancestry (~> 0.3.0)
       paperclip (~> 3.1)
       rails (>= 3.1)
 
@@ -51,7 +46,6 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     arel (3.0.2)
-    bson (1.6.4)
     builder (3.0.0)
     cocaine (0.2.1)
     combustion (0.3.2)
@@ -80,23 +74,17 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.19)
-    mongo (1.6.4)
-      bson (~> 1.6.4)
-    mongo_mapper (0.11.2)
-      activemodel (~> 3.0)
-      activesupport (~> 3.0)
-      plucky (~> 0.5.1)
     mongoid (3.0.4)
       activemodel (~> 3.1)
       moped (~> 1.1)
       origin (~> 1.0)
       tzinfo (~> 0.3.22)
+    mongoid-ancestry (0.3.0)
+      mongoid (~> 3.0.3)
     mongoid-rspec (1.5.4)
       mongoid (>= 3.0.1)
       rake
       rspec (>= 2.9)
-    mongoid-tree (1.0.0)
-      mongoid (>= 3.0, <= 4.0)
     moped (1.2.0)
     multi_json (1.3.6)
     origin (1.0.6)
@@ -106,8 +94,6 @@ GEM
       activesupport (>= 3.0.0)
       cocaine (>= 0.0.2)
       mime-types
-    plucky (0.5.1)
-      mongo (~> 1.5)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
