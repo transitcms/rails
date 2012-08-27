@@ -19,6 +19,13 @@ module Transit
       end
       
       ##
+      # Publish and save the resource.
+      # 
+      def publish!
+        self.set(:published, true)
+      end
+      
+      ##
       # Class level methods and functionality
       # 
       module ClassMethods

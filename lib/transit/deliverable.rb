@@ -12,7 +12,7 @@ module Transit
     included do
       include Mongoid::Document
       include Mongoid::Timestamps
-      include Mongoid::MultiParameterAttributes      
+      include Mongoid::MultiParameterAttributes
     end
     
     

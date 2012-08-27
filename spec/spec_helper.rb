@@ -35,6 +35,7 @@ ActiveSupport::Dependencies.log_activity = true
 require 'rails/mongoid'  
 require 'rspec/rails'
 require 'mongoid-rspec'
+require 'rspec-html-matchers'
 
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 

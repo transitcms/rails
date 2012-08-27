@@ -34,19 +34,30 @@ module Transit
     #   3. Configuring a deliverable block via Transit::Delivery.configure 
     #
     def deliver
-
+      
       # Support delivering only a single context
       if ::Context.descendants.include?(resource.class)
-        return deliver_context(resource)
+        rendered = deliver_context(resource)
+        rendered = deliver_managed_context(resource, rendered) if managed?
+        return rendered
       end
       raise UndeliverableResourceError.new("The class #{resource.class.name} is not deliverable.") unless resource.respond_to?(:contexts)
       
       response = template.capture do
         resource.contexts.ascending(:position).each do |context|          
-          template.concat(deliver_context(context))
+          rendered = deliver_context(context)
+          rendered = deliver_managed_context(context, rendered) if managed?
+          template.concat(rendered)
         end
       end
       response.to_s.html_safe
+    end
+    
+    ##
+    # Should this context be output in a managed state?
+    # 
+    def managed?
+      (options[:managed].present? && options[:managed] === true)
     end
  
     private
@@ -59,19 +70,30 @@ module Transit
     # Delivers a context based on its deliverable method
     #
     def deliver_context(context)
-      if context.respond_to?(:deliver)
+      template_name = managed? ? "manage" : "show"
+      
+      if context.respond_to?(:deliver) && !managed?
         content = context.deliver
         return content unless content === false
       end
       
       klass = context.class.name.to_s.underscore
+      
       begin
         return template.capture do
-          template.render(:partial => "transit/contexts/#{klass}", :locals => { :context => context })
+          template.render(:template => "#{klass}/#{template_name}", :locals => { :context => context })
         end
       rescue ActionView::MissingTemplate
-        raise UndeliverableContextError.new("No partial found for #{context.class.name}. Expected app/views/transit/contexts/_#{klass}.html.erb")
+        raise UndeliverableContextError.new("No partial found for #{context.class.name}. Expected app/contexts/#{klass}/#{template_name}.:format")
       end
+    end
+    
+    ##
+    # Output a context in a managed state
+    # 
+    def deliver_managed_context(context, content)
+      klasses = ['managed-context', context.context_type.underscore.dasherize].join(" ")
+      template.content_tag(:div, content, :class => klasses, :data => { 'context-id' => context.id.to_s, 'context-type' => context.context_type })
     end
 
   

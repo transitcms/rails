@@ -7,70 +7,83 @@ describe Transit::Delivery, type: :view do
   end
   
   let(:audio) do
-    Audio.new(:source => 'www.test.com/something.mp3')
+    Audio.new(
+      :source => 'www.test.com/something.mp3'
+    )
   end
   
   let(:text) do
-    TextBlock.new(:body => "<p>My text is awesome</p>")
+    TextBlock.new(
+      :body => "<p>My text is awesome</p>"
+    )
   end
   
   describe "an instance" do
     
     it "takes an instance of a view as @template" do
-      Transit::Delivery.new(TextBlock.new, view).template.should_not be_nil
+      Transit::Delivery.new(TextBlock.new, view)
+        .template.should_not be_nil
     end
-    
   end
   
   describe "The response" do
     
-    it 'raises an undeliverable error unless the resource is a deliverable' do
-      lambda{ deliver_item(Class.new) }.should 
-        raise_error(Transit::Delivery::UndeliverableResourceError)
-    end
-    
-    it 'renders in the scope of the current view' do
-      deliver_item(audio).should == "<audio src=\"#{audio.source}\" data-context-id=\"#{audio.id.to_s}\" controls></audio>" 
-    end
-    
-    context 'when no delivery is configured for a context' do
+    context 'when the resource is missing a view' do
       
-      it 'raises an undeliverable context error' do
-        lambda{ deliver_item(UndeliverableContext.new) }.should 
-          raise_error(Transit::Delivery::UndeliverableContextError)
+      let(:render) do
+        lambda{ 
+          deliver_item(Class.new) 
+        }
       end
       
+      it 'raises an undeliverable error' do
+        render.should(
+          raise_error(Transit::Delivery::UndeliverableResourceError)
+        )
+      end
     end
     
-    context 'when a partial for the context is found' do
+    context 'when the resource view exists' do
       
-      it 'renders the partial for the delivery' do
-        deliver_item(InlineTextWithPartial.new(:body => 'Some Heading')).should == "<h2>Some Heading</h2>"
+      let(:result) do
+        "<audio src=\"#{audio.source}\" data-context-id=\"#{audio.id.to_s}\" controls></audio>" 
       end
       
+      it 'renders the view for that context' do
+        deliver_item(audio)
+          .should eq result
+      end
     end
     
     context 'when the context has a .deliver method' do
       
-      context 'its result === false' do
+      let!(:text) do
+        TextBlock.new(
+          :body => 'body text'
+        )
+      end
+      
+      context 'when .deliver returns false' do
+        
+        before do
+          text.stub(
+            :deliver => false
+          )
+        end
         
         it 'falls back to the configured delivery' do
-          deliver_item(AltTextBlock.new(:body => "body text")).should == "<p>body text</p>"
+          deliver_item(text)
+            .should eq "<p>body text</p>"
         end
-        
-      end # false .deliver
+      end
       
-      context 'its result === false' do
+      context 'when .deliver does not return false' do
         
         it 'uses the result' do
-          deliver_item(text).should == "<p>My text is awesome</p>"
+          deliver_item(text)
+            .should eq 'body text'
         end
-        
-      end # passing .deliver
-      
+      end
     end
-    
   end
-  
-  
 end

@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rspec", ">= 2.11.0")
   s.add_development_dependency("rspec-rails", ">= 2.11.0")
   s.add_development_dependency("machinist", "~> 2.0")
+  s.add_development_dependency("rspec-html-matchers", "~> 0.3.5")
+  s.add_development_dependency("nokogiri", "~> 1.5.5")
   # s.add_development_dependency("loofah", "~> 1.2")
-  # s.add_development_dependency("nokogiri", ">= 1.4.4")
 end

@@ -11,23 +11,34 @@ describe "A Deliverable" do
     Deliverable
   end
   
-  it 'registers itself on Transit.deliverables' do
-    Deliverable
-    Transit.deliverables['Post'].should be_a(Array)
-    Transit.deliverables['Post'].should include('Deliverable')
+  describe 'Transit.deliverables' do
+    
+    let(:reg) do
+      Transit.deliverables['Post']
+    end
+    
+    it 'should be an array' do
+      reg.should
+        be_a(Array)
+    end
+    
+    it 'should include models which are deliverable' do
+      reg.should include('Deliverable')
+    end
   end
   
-  describe "delivery options" do
+  describe 'extending including models' do
     
-    it "creates a delivery_options class attribute" do
-      subject.respond_to?(:delivery_options).should be_true
+    it 'add a delivery_options attribute' do
+      subject.respond_to?(
+        :delivery_options
+      ).should be_true
     end
     
-    it "assigns options when setting the deliverable type" do
-      subject.delivery_options.respond_to?(:translate).should be_true
-      subject.delivery_options.translate.should be_true
+    it 'includes options passsed from deliver_as' do
+      subject.delivery_options
+        .translate.should be_true
     end
-    
   end
   
   describe "translation" do
@@ -35,9 +46,9 @@ describe "A Deliverable" do
     context "when :translate => true is passed to deliver_as" do
       
       it "enables translations" do
-        TranslatedPost.has_translation_support.should be_true
+        TranslatedPost.has_translation_support
+          .should be_true
       end
-      
     end
     
     context "when :translate is not passed to deliver_as" do
@@ -51,14 +62,16 @@ describe "A Deliverable" do
         end
         
         it 'enables translations' do
-          Page.has_translation_support.should be_true
+          Page.has_translation_support
+            .should be_true
         end
         
         it 'adds :localize => true to fields' do
-          TranslatedPage.new.respond_to?(:name_translations).should be_true
+          TranslatedPage.new
+            .respond_to?(:name_translations)
+            .should be_true
         end
-        
-      end # global translations
+      end
       
       context "when translations are not enabled globaly" do
         
@@ -69,132 +82,207 @@ describe "A Deliverable" do
         end
         
         it 'does not enable translations' do
-          Page.has_translation_support.should be_false
+          Page.has_translation_support
+            .should be_false
         end
         
         it 'does not add :localize => true to fields' do
-          Page.new.respond_to?(:name_translations).should be_false
+          Page.new.respond_to?(:name_translations)
+            .should be_false
         end
-        
       end
-      
     end
-    
   end
   
   describe "creating contexts" do
     
-    describe "on a new record" do
-      
-      it "creates a new context" do
-        post = Post.make
-        post.contexts.count.should == 0
-        post.contexts_attributes = { "0" => { "_type" => "TextBlock", "body" => "Sample text body" }}
-        post.save
-        post.contexts.count.should == 1
-      end
-    end
-    
-    describe "creating a new context" do
-      
-      before(:all) do
-        @post = Post.make!
-      end
+    context "when a new record" do
       
       let!(:post) do
-        @post
+        Post.make
       end
       
-      context "when no contexts exist" do
+      context 'and passed contexts_attributes' do
         
-        before(:all) do
-          post.contexts_attributes = { "0" => { "_type" => "TextBlock", "body" => "Sample text body" }}
-          post.save
-        end
-        
-        it 'adds a context' do
-          post.contexts.count.should == 1
-        end
-      
-        it "assigns the proper STI class to the context" do
-          post.contexts.first.class.should == TextBlock
-        end 
-                 
-      end
-      
-      context "when contexts exist" do
-        
-        before(:all) do
+        before do
           post.contexts_attributes = { 
-            "0" => { "_type" => "TextBlock", "body" => "Sample text body" }, 
-            "1" => post.contexts.first.attributes.merge!("id" => post.contexts.first.id.to_s) 
+            "0" => { 
+              "_type" => "TextBlock", 
+              "body"  => "Sample text body" 
+            }
           }
           post.save
         end
         
-        it 'adds a context' do
-          post.contexts.count.should == 2
-        end
-      
-        it "assigns the proper STI class to the context" do
-          post.contexts.last.class.should == TextBlock
+        it 'adds a new context' do
+          post.contexts
+            .count.should eq 1
         end
         
-        after(:all) do
-          post.contexts.last.delete
+        it 'adds a context of the specified _type' do
+          post.contexts.first
+            .should be_a(TextBlock)
         end
-        
       end
-      
     end
     
-    describe "updating an existing context" do
+    context "when an existing record" do
       
       let!(:post) do
-        @post || Post.make!
+        Post.make!
       end
       
-      before(:all) do
-        post.contexts_attributes = { "0" => { "_type" => "TextBlock", "body" => "Sample text body" }}
-        post.save        
+      context 'and passed contexts_attributes' do
+        
+        before do
+          post.contexts_attributes = { 
+            "0" => { 
+              "_type" => "TextBlock", 
+              "body"  => "Sample text body" 
+            }
+          }
+          post.save
+        end
+        
+        it 'adds a new context' do
+          post.contexts
+            .count.should eq 1
+        end
+        
+        it 'adds a context of the specified _type' do
+          post.contexts.first
+            .should be_a(TextBlock)
+        end
+      end
+    end
+      
+    context "when previous contexts exist" do
+      
+      let!(:post) do
+        Post.make!(
+          :contexts_attributes => {
+            "0" =>{
+              "_type" => "TextBlock", 
+              "body"  => "Sample text body"
+            }
+          }
+        )
+      end
+      
+      before do
+        post.contexts_attributes = { 
+          "0" => {
+            "_type" => "HeadingText",
+            "body"  => "This is a heading"
+          }
+        }
+        post.save
+      end
+        
+      it 'adds new contexts' do
+        post.contexts
+          .count.should eq 2
+      end
+      
+      it "assigns the proper STI class to the context" do
+        post.contexts.last
+          .should be_a HeadingText
+      end
+    end
+    
+    context "when contexts_attributes is for an existing context" do
+      
+      let!(:post) do
+        Post.make!(
+          :contexts_attributes => { 
+            "0" => { 
+              "_type" => "TextBlock", 
+              "body"  => "Sample text body" 
+            }
+          }
+        )
       end
    
       let(:context) do 
-        post.contexts.first
+        post.contexts
+          .first
       end
       
-      it 'should update the context inline' do
+      let(:attrs) do
+        {
+          :contexts_attributes => { 
+            "0" => { 
+              "id"    => context.id.to_s, 
+              "_type" => "TextBlock", 
+              "body"  => "Sample text body" 
+            }
+          }
+        }
+      end
+
+      it 'updates the existing context' do
         expect{
-          post.update_attributes(:contexts_attributes => { "0" => { "id" => context.id.to_s, "_type" => "TextBlock", "body" => "Sample text body" }})
-        }.to_not change(post.contexts, :count)
+          post.update_attributes(attrs)
+        }.to_not change(
+          post.contexts, :count
+        )
       end
       
+      context 'and the attributes contain _destroy' do
+        
+        let!(:post) do
+          Post.make!(
+            :contexts_attributes => { 
+              "0" => { 
+                "_type" => "TextBlock", 
+                "body"  => "Sample text body" 
+              }
+            }
+          )
+        end
+      
+        let(:context) do 
+          post.contexts.first
+        end
+        
+        context 'and _destroy evaluates true' do
+          
+          let(:attrs) do
+            { :contexts_attributes => { 
+                "0" => { 
+                  "id"       => context.id.to_s, 
+                  "_destroy" => 'true'}
+            }}
+          end
+          
+          it 'removes the context' do
+            expect{
+              post.update_attributes(attrs)
+            }.to change(
+              post.contexts, :count
+            ).by(-1)
+          end
+        end
+        
+        context 'and _destroy evaluates false' do
+          
+          let(:attrs) do
+            { :contexts_attributes => { 
+                "0" => { 
+                  "id"       => context.id.to_s, 
+                  "_destroy" => 'false'}
+            }}
+          end
+          
+          it 'does not remove the context' do
+            expect{
+              post.update_attributes(attrs)
+            }.to_not change(
+              post.contexts, :count
+            )
+          end
+        end
+      end
     end
-    
-    describe 'removing contexts' do
-      
-      let!(:post) do
-        @post || Post.make!
-      end
-      
-      before(:all) do
-        post.contexts_attributes = { "0" => { "_type" => "TextBlock", "body" => "Sample text body" }}
-        post.save        
-      end
-      
-      let(:context) do 
-        post.contexts.first
-      end
-      
-      it 'destroys contexts when the _destroy attribute is true' do
-        expect{
-          post.update_attributes(:contexts_attributes => { "0" => { "id" => context.id.to_s, "_destroy" => "true", "_type" => "TextBlock", "body" => "Sample text body" }})
-        }.to change(post.contexts, :count).by(-1)
-      end
-      
-      
-    end
-  
   end
-  
 end

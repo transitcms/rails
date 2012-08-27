@@ -10,9 +10,20 @@ class HeadingText < Context
   field :body, :type => String, :default => 'Heading Text', :localize => has_translation_support
   field :node, type: String, default: "h2"
   
+  before_save :cleanup_body
+  
   def as_json(options = {})
     options.reverse_merge!({ :only => [:body, :node] })
     super(options)
+  end
+  
+  private
+  
+  ##
+  # Strip useless info from the body
+  # 
+  def cleanup_body
+    self.body = self.body.to_s.strip
   end
   
 end

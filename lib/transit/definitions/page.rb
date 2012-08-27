@@ -14,14 +14,18 @@ module Transit
       
       included do
         include Mongoid::Ancestry
-
+        
         field :name,        :type => String, :localize => has_translation_support
         field :title,       :type => String, :localize => has_translation_support
         field :description, :type => String, :localize => has_translation_support
         field :keywords,    :type => Array,  :default => []
-       
-        field :slug, :type => String,  :default => nil
         
+        field :slug,      :type => String,  :default => nil
+        field :position,  :type => Integer, :default => 0
+        
+        # Used as a unique identifier for things like page id's etc.
+        field :identifier, :type => String  
+          
         has_ancestry :orphan_strategy => :rootify, :cache_depth => true
         field :ancestry_depth, :type => Integer, :default => 0
         
@@ -46,8 +50,9 @@ module Transit
         end
                 
         before_save :sanitize_path_names
-        before_validation :cache_depth
+        before_create :generate_heirarchy
         before_save :generate_paths
+        before_create :generate_identifier
         has_and_belongs_to_many :content_blocks
         
         validates_presence_of :title, :name
@@ -92,11 +97,36 @@ module Transit
         self.slug_map.dup.join("/")
       end
       
+      ##
+      # Used to set keywords via comma separated string
+      # 
+      def keyword_list=(words)
+        self.keywords = words.split(",").compact.map!(&:strip)
+      end
+      
+      ##
+      # Display keywords as a comma separated string.
+      # 
+      def keyword_list
+        self.keywords.join(",")
+      end
+      
+      ##
+      # Does this page have children?
+      # 
       def pages?
         self.send(:"#{self.class.name.pluralize.underscore}").published.exists?
       end
       
       private
+      
+      ##
+      # Build the cache and heirarchy of pages
+      # 
+      def generate_heirarchy
+        #cache_depth
+        self.position = self.siblings.count
+      end
       
       ##
       # Generates an array of slugs based on this page's nesting in the tree. 
@@ -108,7 +138,14 @@ module Transit
         parts = [self.ancestors(:to_depth => self.depth).collect(&:slug), self.slug].flatten.compact
         self.slug_map = parts.map do |part|
           _sanitize_uri_fragment(part)
-        end
+        end.reject(&:blank?)
+      end
+      
+      ##
+      # On creation, if the identifier is nil, generate it from the name.
+      # 
+      def generate_identifier
+        self.identifier ||= self.name.to_s.to_slug.underscore
       end
       
       ##

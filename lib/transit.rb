@@ -11,6 +11,7 @@ module Transit
   end
   
   include ActiveSupport::Configurable
+  config_accessor :template_base_path
   
   ##
   # Stores a hash which identifies all 
@@ -38,3 +39,4 @@ require "transit/extension"
 require "transit/support/all"
 require "transit/delivery"
 require "transit/engine"
+require "transit/helpers"

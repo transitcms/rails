@@ -17,6 +17,11 @@ module Transit
   config.assets.url       = "/system/assets/:id/:style.:extension"
   
   ##
+  # View paths
+  # 
+  config.template_base_path = nil
+  
+  ##
   # When using the publishing extension, should a publish_date be used?
   # 
   config.publish_with_date = true

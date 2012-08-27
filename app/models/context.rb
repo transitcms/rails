@@ -32,7 +32,11 @@ class Context
   end
   
   def as_json(options = {})
-    super(options).merge!(:id => self.id, :_type => self.context_type, :position => self.position)
+    super(options).merge!(
+      'position' => self.position,
+      '_type'    => self.context_type,
+      'id'       => self.id
+    ).tap{ |h| h.delete('_id') }
   end
   
 end

@@ -305,4 +305,71 @@ describe Page do
       end # de-duping safe
     end # de-duping
   end
+  
+  describe 'positioning pages' do
+    
+    let!(:top) do
+      Page.make!(
+        :slug  => 'top-page',
+        :name  => 'Top Page',
+        :title => 'This is a top page'
+      )
+    end
+    
+    let!(:top2) do
+      Page.make!(
+        :slug  => 'top-page2',
+        :name  => 'Top page 2',
+        :title => 'This is a top page'
+      )
+    end
+    
+    let!(:sub) do
+      Page.make!(
+        :page  => page,
+        :slug  => 'sub-page',
+        :name  => 'Sub Page',
+        :title => 'This is a sub page'
+      )
+    end
+    
+    let!(:sub2) do
+      Page.make!(
+        :page  => page,
+        :slug  => 'sub-page',
+        :name  => 'Sub Page',
+        :title => 'This is a sub page'
+      )
+    end
+    
+    context 'when top level pages' do
+      
+      it 'adds pages in ascending order' do
+        top.position
+          .should eq 1
+      end
+      
+      it 'sets the position to an incrementing value' do
+        top2.position
+          .should eq 2
+      end
+    end
+    
+    context 'when nested pages' do
+      
+      it 'adds pages in ascending order' do
+        sub.position
+          .should eq 0
+      end
+      
+      it 'sets the position to an incrementing value' do
+        sub2.position
+          .should eq 1
+      end
+    end
+    
+    describe 're-sorting pages' do
+      pending "Allow sorting on ids or items"
+    end
+  end
 end
