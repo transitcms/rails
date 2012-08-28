@@ -22,6 +22,22 @@ module Transit
   config.template_base_path = nil
   
   ##
+  # Method used for authentication in controllers
+  # 
+  config.authentication_method = :authenticate_admin!
+  
+  ##
+  # Response formats available in the parent 
+  # application. Used in respond_with
+  # 
+  config.response_formats = [:json, :js]
+  
+  ##
+  # Default handler for template files.
+  # 
+  config.template_handler = :erb
+  
+  ##
   # When using the publishing extension, should a publish_date be used?
   # 
   config.publish_with_date = true

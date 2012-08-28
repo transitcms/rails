@@ -8,7 +8,6 @@ module Transit
     config.transit = Transit.config
     
     paths['app/models'] << File.expand_path("../../../app/models/contexts", __FILE__)
-    paths['app/views'] << File.expand_path("../../../app/contexts", __FILE__)
     
     initializer "transit.enable_extensions", :before => :eager_load! do
       require 'mongoid'      
@@ -21,8 +20,12 @@ module Transit
       app.config.autoload_paths << Rails.root + 'app/contexts'
     end
     
-    ActiveSupport.on_load(:action_controller) do
-      append_view_path Transit.template_base_path || File.join(Rails.root, 'app', 'contexts')
+    
+    
+    config.to_prepare do
+      Transit.template_base_path ||= File.join(Rails.root, 'app', 'contexts')
+      ActionController::Base.send(:append_view_path, Transit.template_base_path)
+      ActionController::Base.send(:append_view_path, File.expand_path("../../../app/contexts", __FILE__))
     end
 
     initializer "transit.preload_contexts" do |app|
