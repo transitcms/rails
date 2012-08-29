@@ -15,9 +15,16 @@ class Context
   after_create :set_default_position
   
   field :position, :type => Integer
+  
+  ##
+  # Optional identifier for the context, used when you want to 
+  # deliver a single context within a portion of a page or post.
+  # 
+  field :identifier, :type => String, :default => ''
   embedded_in :deliverable, :polymorphic => true
   
   default_scope ascending(:position)
+  scope :called, lambda{ |name| where(:identifier => name) }
   
   ##
   # On create, new contexts are added to the bottom of the 'stack'.

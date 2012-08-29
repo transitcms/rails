@@ -50,6 +50,7 @@ module Transit
           template.concat(rendered)
         end
       end
+      content_tag(:div, response, { :class => 'managed-region', :data => { 'region' => 'true' } }).to_s.html_safe if managed?
       response.to_s.html_safe
     end
     
