@@ -21,7 +21,6 @@ describe Context do
       it 'defaults to 1' do
         post.contexts.first.position.should == 1
       end
-      
     end
     
     context "when an additional context" do
@@ -34,9 +33,7 @@ describe Context do
         post.contexts.create({ body: "another test body" }, TextBlock)
         post.contexts.last.position.should == 2
       end
-      
     end
-    
   end 
   
 end

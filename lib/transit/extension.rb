@@ -10,6 +10,7 @@ module Transit
     autoload :Translations,     'transit/extensions/translations'
     autoload :ContentBlocks,    'transit/extensions/content_blocks'
     autoload :Publishing,       'transit/extensions/publishing'
+    autoload :Ordering,         'transit/extensions/ordering'
 
     class << self
       

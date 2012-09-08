@@ -9,6 +9,7 @@ group :test do
   gem 'growl'
   gem 'guard', '1.3.0'
   gem "guard-rspec"
+  gem 'rb-fsevent', '~> 0.9.1'
   gem 'machinist_mongo', github: 'brentkirby/machinist_mongo', require: 'machinist/mongoid'
 end
 

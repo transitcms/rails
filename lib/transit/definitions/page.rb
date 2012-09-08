@@ -118,6 +118,14 @@ module Transit
         self.send(:"#{self.class.name.pluralize.underscore}").published.exists?
       end
       
+      ##
+      # Override the slug setter to ensure 
+      # clean urls.
+      # 
+      def slug=(value)
+        write_attribute(:slug, _sanitize_uri_fragment(value.to_s))
+      end
+      
       private
       
       ##
@@ -139,6 +147,10 @@ module Transit
         self.slug_map = parts.map do |part|
           _sanitize_uri_fragment(part)
         end.reject(&:blank?)
+        
+        # once the path is built, set the slug unless previously set
+        write_attribute(:slug, self.full_path) if self.slug.nil?
+        true
       end
       
       ##
@@ -153,8 +165,7 @@ module Transit
       # always truncated to non-absolute paths. It also checks against 
       # duplication of parent slug/path values.
       # 
-      def sanitize_path_names        
-        self.slug  = _sanitize_uri_fragment(self.slug)                
+      def sanitize_path_names
         unless self.parent.nil?
           slug_parts   = self.slug.to_s.split("/").compact
           parent_parts = self.parent.slug_map.dup
