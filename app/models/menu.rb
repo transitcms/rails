@@ -71,6 +71,7 @@ class Menu
     # 
     def set_url_from_page
       return true if self.page.nil?
+      return true unless self.page_id_changed?
       full = self.page.full_path.to_s.sub(/^\//, '')
       self.url = "/#{full}"
     end
