@@ -342,16 +342,30 @@ describe Page do
       )
     end
     
+    let!(:sub3) do
+      Page.make!(
+        :page  => page,
+        :slug  => 'sub-page',
+        :name  => 'Sub Page',
+        :title => 'This is a sub page'
+      )
+    end
+    
     context 'when top level pages' do
+      
+      it 'increments position from existing pages' do
+        page.position
+          .should eq 1
+      end
       
       it 'adds pages in ascending order' do
         top.position
-          .should eq 1
+          .should eq 2
       end
       
       it 'sets the position to an incrementing value' do
         top2.position
-          .should eq 2
+          .should eq 3
       end
     end
     
@@ -359,17 +373,65 @@ describe Page do
       
       it 'adds pages in ascending order' do
         sub.position
-          .should eq 0
+          .should eq 1
       end
       
       it 'sets the position to an incrementing value' do
         sub2.position
-          .should eq 1
+          .should eq 2
       end
     end
     
-    describe 're-sorting pages' do
-      pending "Allow sorting on ids or items"
+    describe 'reordering pages with .reposition!' do
+      
+      context 'when top level pages' do
+        
+        before do
+          top2.reposition!(1)
+          [page, top, top2]
+            .each(&:reload)
+        end
+        
+        it 're-orders the page to the new position' do
+          top2.position
+            .should eq 1
+        end
+        
+        it 're-orders sibling pages to higher positions' do
+          page.position
+            .should eq 2
+          top.position
+            .should eq 3
+        end
+      end
+      
+      context 'when nested pages' do
+        
+        before do
+          sub2.reposition!(1)
+          [sub, sub2, sub3, top, top2]
+            .each(&:reload)
+        end
+        
+        it 're-orders the page to the new position' do
+          sub2.position
+            .should eq 1
+        end
+        
+        it 'moves sibling pages to higher positions' do
+          sub.position
+            .should eq 2
+          sub3.position
+            .should eq 3
+        end
+        
+        it 'does not move other pages outside of siblings' do
+          page.position
+            .should eq 1
+          top.position
+            .should eq 2
+        end
+      end
     end
   end
 end

@@ -32,7 +32,7 @@ class Menu
     include Mongoid::Ancestry
     
     include Transit::Extension::Ordering
-    
+
     class_attribute :has_translation_support
     self.has_translation_support = Transit.config.translate
     

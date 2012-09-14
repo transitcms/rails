@@ -14,6 +14,9 @@ module Transit
       
       included do
         include Mongoid::Ancestry
+        include Transit::Extension::Ordering
+        
+        self.method_for_position_counter = :siblings
         
         field :name,        :type => String, :localize => has_translation_support
         field :title,       :type => String, :localize => has_translation_support
@@ -21,7 +24,6 @@ module Transit
         field :keywords,    :type => Array,  :default => []
         
         field :slug,      :type => String,  :default => nil
-        field :position,  :type => Integer, :default => 0
         
         # Used as a unique identifier for things like page id's etc.
         field :identifier, :type => String  
@@ -50,7 +52,6 @@ module Transit
         end
                 
         before_save :sanitize_path_names
-        before_create :generate_heirarchy
         before_save :generate_paths
         before_create :generate_identifier
         has_and_belongs_to_many :content_blocks
@@ -127,15 +128,7 @@ module Transit
       end
       
       private
-      
-      ##
-      # Build the cache and heirarchy of pages
-      # 
-      def generate_heirarchy
-        #cache_depth
-        self.position = self.siblings.count
-      end
-      
+
       ##
       # Generates an array of slugs based on this page's nesting in the tree. 
       # When a page belongs to another (and even another) the resulting path stack 
