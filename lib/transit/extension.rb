@@ -11,6 +11,7 @@ module Transit
     autoload :ContentBlocks,    'transit/extensions/content_blocks'
     autoload :Publishing,       'transit/extensions/publishing'
     autoload :Ordering,         'transit/extensions/ordering'
+    autoload :Slugability,       'transit/extensions/slugability'
 
     class << self
       
@@ -39,6 +40,7 @@ module Transit
     # extension loading functionality
     # 
     module Loader
+      
       ##
       # Deliverables can include a number of other packages and 
       # delivery options. To include them pass them to this method.
@@ -55,11 +57,25 @@ module Transit
           unless Transit::Extension.const_defined?(extname)
             raise Transit::Extension::MissingExtensionError.new("The extension #{extname} could not be found.")
           end
+          
+          if options[arg].present? 
+            self.delivery_options.merge!(arg => options[arg])
+          end
+          
           include Transit::Extension.const_get(extname)
         end
       end
       
       alias :add_extension :deliver_with
+      
+      ##
+      # Lookup any configuration options for the specified extension name
+      # 
+      # @param [String,Symbol] extname The extension name to lookup.
+      # 
+      def delivery_options_for(extname)
+        self.delivery_options.send(extname.to_sym)
+      end
       
     end
     

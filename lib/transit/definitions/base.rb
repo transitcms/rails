@@ -14,10 +14,10 @@ module Transit
       included do
         
         # Stores the type of deliverable for this model
-        class_attribute :delivers_as, :instance_writer => false
+        class_attribute :delivers_as, :instance_writer => false, :instance_reader => true
 
         # Stores a list of options for delivering this model
-        class_attribute :delivery_options, :instance_writer => false
+        class_attribute :delivery_options, :instance_writer => false, :instance_reader => true
         
         ## Stub an attribute representing whether this specific class has translation support
         class_attribute :has_translation_support

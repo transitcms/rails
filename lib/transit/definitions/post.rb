@@ -24,6 +24,9 @@ module Transit
         
         # By default all posts should be publishable
         deliver_with :publishing
+        
+        # make slug title action
+        deliver_with :slugability => ":title"
         before_save :create_slug_if_published
       end
       
@@ -37,9 +40,8 @@ module Transit
       def create_slug_if_published
         return true unless self.slug.nil?
         return true unless self.published?
-        self.slug = self.title.to_slug
+        self.slug = interpolate_slug
       end
-            
       
     end # Post
   end # Definition

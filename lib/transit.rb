@@ -7,11 +7,20 @@ require "transit/version"
 module Transit
   extend self
   
+  autoload :Interpolations, 'transit/interpolations'
+  
   module Support
   end
   
   include ActiveSupport::Configurable
   config_accessor :template_base_path
+  
+  ##
+  # Paperclip style interpolations
+  # 
+  def interpolates(key, &block)
+    Transit::Interpolations[key] = block
+  end
   
   ##
   # Stores a hash which identifies all 

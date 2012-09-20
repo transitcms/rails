@@ -7,15 +7,15 @@ describe "Extensions" do
     describe 'extension methods' do
 
       it "includes .deliver_with" do
-        Post.respond_to?(:deliver_with).should be_true
+        Post.respond_to?(:deliver_with)
+          .should be_true
       end
     
       it "alias's .add_extension" do
-        Post.respond_to?(:add_extension).should be_true
+        Post.respond_to?(:add_extension)
+          .should be_true
       end
-    
     end
-    
   end
   
   describe 'adding extensions' do
@@ -23,37 +23,55 @@ describe "Extensions" do
     context 'when the extension is found' do
       
       before do
-        Post.send(:deliver_with, :publishing)
+        Post.send(
+          :deliver_with, :publishing
+        )
       end
       
-      it 'extends the model' do
-        Post.included_modules.should include(Transit::Extension::Publishing)
+      let(:extname) do
+        Transit::Extension::Publishing
       end
       
-    end # found extensions
+      it 'extends the model with the specified extension' do
+        Post.included_modules
+          .should include(extname)
+      end
+    end
     
     context 'when the extension is missing' do
       
-      it 'raises a MissingExtensionError' do
-        lambda{ Post.send(:deliver_with, :nothing) }.should
-          raise_error(Transit::Extension::MissingExtensionError)
+      let(:missing) do
+        lambda do
+          Post.send(:deliver_with, :nothing)
+        end
       end
       
-    end # missing extensions
-    
-  end # extensions
+      it 'raises a MissingExtensionError' do
+        expect{ 
+          missing.call 
+        }.to raise_error(
+          Transit::Extension::MissingExtensionError
+        )
+      end 
+    end
+  end
   
   
   describe "configuring extensions" do
     
-    before do
-      Post.send(:deliver_with, :publishing)
-    end
+    context 'when extensions are passed as a hash' do
+
+      before do
+        Post.send(
+          :deliver_with, 
+          :slugability => ":title"
+        )
+      end
     
-    it 'adds configuration options to the model' do
-      
+      it 'assigns the options to the model delivery_options' do
+        Post.delivery_options_for(:slugability)
+          .should eq ':title'
+      end
     end
-    
-  end # configuring
-  
+  end  
 end
