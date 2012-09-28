@@ -46,9 +46,9 @@ module Transit
     # 
     def month(resource)
       if resource.respond_to?(:publish_date) 
-        return resource.publish_date.try(:month)
+        return resource.publish_date.try(:strftime, '%m')
       end
-      resource.created_at.try(:month)
+      resource.created_at.try(:strftime, '%m')
     end
     
     ##
