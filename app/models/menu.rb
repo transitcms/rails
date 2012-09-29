@@ -18,6 +18,7 @@ class Menu
   # 
   field :identifier, :type => String, :default => ''
   field :name, :type => String
+  field :description, :type => String
   
   embeds_many :items, :class_name => 'Menu::MenuItem'
   
