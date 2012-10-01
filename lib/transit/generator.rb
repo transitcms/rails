@@ -30,9 +30,9 @@ module Transit
         next nil if child.nil?
         type = child.name.downcase
         if type =~ /h[1-6]/
-          ['HeadingText', { :node => type, :body => child.text.to_s.strip }]
+          ['HeadingText', { :node => type, :body => child.children.to_html.chomp.strip.html_safe }]
         elsif type == 'div'
-          [child.attr('data-context-type'), { :body => child.children.to_html.chomp.strip }]
+          [child.attr('data-context-type'), { :body => child.children.to_html.chomp.strip.html_safe }]
         elsif ['audio','video'].include?(type)
           [type.classify, attrs_to_hash(child)]
         else
