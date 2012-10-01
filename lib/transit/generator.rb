@@ -30,9 +30,9 @@ module Transit
         next nil if child.nil?
         type = child.name.downcase
         if type =~ /h[1-6]/
-          ['HeadingText', { :node => type, :body => child.children.to_html.chomp.strip.html_safe }]
+          ['HeadingText', { :node => type, :body => cleanup_content(child.children.to_html) }]
         elsif type == 'div'
-          [child.attr('data-context-type'), { :body => child.children.to_html.chomp.strip.html_safe }]
+          [child.attr('data-context-type'), { :body => cleanup_content(child.children.to_html) }]
         elsif ['audio','video'].include?(type)
           [type.classify, attrs_to_hash(child)]
         else
@@ -47,6 +47,10 @@ module Transit
       child.attributes.keys.inject({}) do |name, hash|
         hash.merge!(name => child.attr(name))
       end
+    end
+    
+    def cleanup_content(content)
+      content.chomp.strip.gsub("\n", " ").html_safe
     end
   end
 end
