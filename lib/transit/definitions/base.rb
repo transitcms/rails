@@ -34,12 +34,28 @@ module Transit
         #alias :contexts_attributes= :build_context_attributes=
         
       end
-       
+      
+      ##
+      # Allow generating context data from a HTML document or fragment
+      # 
+      # @param [data] String An html string, can be an entire page, or a document fragment
+      # 
+      def build_from_html(data)
+        generator = ::Transit::Generator.new(data, self)
+        generator.contexts.each do |con|
+          klass = con.first.constantize
+          self.contexts.build(con.last, klass)
+        end
+        self
+      end
+      
       
       ##
       # Because mongoid requires the class type be the last value in a build 
       # method, we override contexts_attributes= to ensure newly created contexts
       # are of the proper class.
+      # 
+      # @param [hash] Hash A hash of attributes, following the typical Rails' nested attribute hash
       # 
       def build_context_attributes=(hash)
         hash.each_pair do |position, attrs|

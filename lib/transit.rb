@@ -8,7 +8,8 @@ module Transit
   extend self
   
   autoload :Interpolations, 'transit/interpolations'
-  
+  autoload :Generator,      'transit/generator'
+
   module Support
   end
   
