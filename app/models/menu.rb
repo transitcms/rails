@@ -37,15 +37,17 @@ class Menu
     class_attribute :has_translation_support
     self.has_translation_support = Transit.config.translate
     
-    field :title,   :type => String, :localize => has_translation_support
-    field :page_id, :type => ::Moped::BSON::ObjectId
-    field :url,     :type => String
+    field :title,    :type => String, :localize => has_translation_support
+    field :page_id,  :type => ::Moped::BSON::ObjectId
+    field :url,      :type => String
+    field :linkable, :type => Boolean, :default => true
     
     has_ancestry :orphan_strategy => :rootify, :cache_depth => true
     field :ancestry_depth, :type => Integer, :default => 0
     
     embedded_in :menu, :class_name => 'Menu'
     validates :title, :presence => true
+    validates :url, :presence => { :if => :linkable? }
     
     before_validation :set_url_from_page
     
@@ -71,6 +73,7 @@ class Menu
     # To make sure top level paths are used, normalize the beginning slash.
     # 
     def set_url_from_page
+      return true unless self.linkable?
       return true if self.page.nil?
       return true unless self.page_id_changed?
       full = self.page.full_path.to_s.sub(/^\//, '')

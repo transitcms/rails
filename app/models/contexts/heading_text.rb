@@ -23,7 +23,7 @@ class HeadingText < Context
   # Strip useless info from the body
   # 
   def cleanup_body
-    self.body = self.body.to_s.strip
+    self.body = self.body.to_s.chomp.strip.gsub("\n", " ")
   end
   
 end
