@@ -46,4 +46,7 @@ RSpec.configure do |config|
     Mongoid.purge!
     Mongoid::IdentityMap.clear
   end
+  config.after(:suite) do
+    Asset.destroy_all
+  end
 end
