@@ -2,3 +2,4 @@
 .yardoc
 .rvmrc
 coverage
+spec/internal/public/system/*
