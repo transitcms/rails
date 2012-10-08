@@ -12,7 +12,8 @@ module Transit
       
       included do
         field :published,    :type => Boolean, :default => false
-        field :publish_date, :type => Time                    
+        field :publish_date, :type => Time
+
         ## Alias post_date for convenience and as a sensible name for post type deliverables.
         alias_attribute :post_date, :publish_date
         

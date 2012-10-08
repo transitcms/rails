@@ -16,6 +16,9 @@ module Transit
   config.assets.path      = ":rails_root/public/system/assets/:id/:style.:extension"
   config.assets.url       = "/system/assets/:id/:style.:extension"
   
+  config.assets.store_in_groups = true
+  config.assets.default_group   = 'Uploads'
+  
   ##
   # View paths
   # 

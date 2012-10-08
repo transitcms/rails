@@ -13,7 +13,6 @@ class Asset
   has_attached_file :file, Transit.config.assets.to_hash
   
   field :name,              :type => String, :localize => true
-  
   field :file_file_name,    :type => String
   field :file_content_type, :type => String
   field :file_updated_at,   :type => Time
@@ -27,7 +26,11 @@ class Asset
   
   before_save   :set_default_name
   before_create :set_default_file_type
+  before_create :assign_to_group
   
+  belongs_to :group, :class_name => 'AssetGroup'
+  
+  default_scope ascending(:name)
   scope :images, where(:file_type => 'image')
   scope :files, excludes(:file_type => 'image')
   
@@ -72,20 +75,28 @@ class Asset
   
   def as_json(options = {})
     options.merge!(:only => [:file_type], :methods => [:urls])
-    super(options).merge!(
+    options = super(options).merge!(
       :id         => self.id,
       :url        => (self.file.file? ? self.file.url(:original) : nil), 
       :image      => image?,
       :filename   => self.file_file_name)
+    options.merge!(:group => self.group.as_json) if ::Transit.config.assets.store_in_groups
+    options
   end
   
   private
+  
+  def assign_to_group
+    return true unless self.group.nil?
+    return true unless ::Transit.config.assets.store_in_groups
+    self.group = ::AssetGroup.default
+  end
   
   ##
   # Allow assigning a name attribute to an asset for easier identification
   # 
   def set_default_name
-    self.name = self.file_file_name.to_s
+    self.name ||= self.file_file_name.to_s
   end
   
   ##

@@ -18,7 +18,7 @@ module Transit
 
         # Stores a list of options for delivering this model
         class_attribute :delivery_options, :instance_writer => false, :instance_reader => true
-        
+
         ## Stub an attribute representing whether this specific class has translation support
         class_attribute :has_translation_support
         self.has_translation_support ||= false
