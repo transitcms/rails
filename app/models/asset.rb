@@ -97,7 +97,8 @@ class Asset
   # Allow assigning a name attribute to an asset for easier identification
   # 
   def set_default_name
-    self.name ||= self.file_file_name.to_s
+    return true unless self.name.nil? or self.name.blank?
+    self.name = self.file_file_name.to_s
   end
   
   ##
