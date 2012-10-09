@@ -41,6 +41,7 @@ class Menu
     field :page_id,  :type => ::Moped::BSON::ObjectId
     field :url,      :type => String
     field :linkable, :type => Boolean, :default => true
+    field :opens_in, :type => String,  :default => '_self'
     
     has_ancestry :orphan_strategy => :rootify, :cache_depth => true
     field :ancestry_depth, :type => Integer, :default => 0
@@ -64,6 +65,13 @@ class Menu
     # 
     def page=(p)
       self.page_id = p.id
+    end
+    
+    ##
+    # Should this page open a new window/tab?
+    # 
+    def external?
+      ['_blank', '_parent'].include?(self.opens_in)
     end
     
     private
