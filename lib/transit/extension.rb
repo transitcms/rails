@@ -9,6 +9,7 @@ module Transit
     autoload :Attachments,      'transit/extensions/attachments'
     autoload :Translations,     'transit/extensions/translations'
     autoload :ContentBlocks,    'transit/extensions/content_blocks'
+    autoload :HtmlSanitization, 'transit/extensions/html_sanitization'
     autoload :Publishing,       'transit/extensions/publishing'
     autoload :Ordering,         'transit/extensions/ordering'
     autoload :Slugability,       'transit/extensions/slugability'

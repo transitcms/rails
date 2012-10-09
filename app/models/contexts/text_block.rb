@@ -4,7 +4,15 @@
 # 
 # 
 class TextBlock < Context
+  
   field :body, :type => HtmlContent, :default => "<p>type content here</p>", :localize => has_translation_support
+  
+  # Identify the amount of 'editability' supported by this this contect. This is mostly used 
+  # on the front-end when implementing rich-text editors etc to know the level of functionality needed.
+  # Set the values as necessary depending on your front-end implementation. A good practice is to 
+  # use names that can translate to your editor options.
+  # 
+  field :features, :type => Array, :default => ['text', 'link', 'image']
   
   ##
   # Sanitize the body content if enabled.

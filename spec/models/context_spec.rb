@@ -15,7 +15,9 @@ describe Context do
     context "when the first context" do
       
       before(:all) do
-        post.contexts.create({ body: "test post body" }, TextBlock)
+        post.contexts.create({ 
+          :body => "test post body" 
+        }, TextBlock)
       end
       
       it 'defaults to 1' do
@@ -36,4 +38,44 @@ describe Context do
     end
   end 
   
+  describe "'fixed' contexts" do
+    
+    context 'when a context has a false removable attribute' do
+      
+      let!(:text) do
+        post.contexts.create({ 
+          :body      => "test post body",
+          :removable => false
+        }, TextBlock)
+      end
+      
+      before do
+        text.destroy
+      end
+      
+      it 'should dis-allow removal' do
+        text.destroyed?
+          .should be_false
+      end
+    end
+    
+    context 'when a context has a true removable attribute' do
+      
+      let!(:text) do
+        post.contexts.create({ 
+          :body      => "test post body",
+          :removable => true
+        }, TextBlock)
+      end
+      
+      before do
+        text.destroy
+      end
+      
+      it 'should allow removal' do
+        text.destroyed?
+          .should be_true
+      end
+    end
+  end
 end

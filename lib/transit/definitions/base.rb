@@ -76,6 +76,16 @@ module Transit
           end
         end
       end
+      
+      ##
+      # Override serializable_hash to include a regular 'id' attribute. 
+      # This is helpful when using libraries like Backbone/Spine etc.
+      # 
+      # @param [Hash] options Options to be passed through to as/to_json
+      # 
+      def serializable_hash(options = {})
+        super(options).reverse_merge!('id' => self.id)
+      end
 
       
     end # Transit

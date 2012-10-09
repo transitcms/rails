@@ -23,7 +23,11 @@ class MediaContext < Context
     (source.nil? or source.to_s.blank?)
   end
   
-  def as_json(options = {})
+  ##
+  # Include source and other data within
+  # serialized hash data.
+  # 
+  def serializable_hash(options = {})
     options.merge!({ :only => [:asset_id, :source, :media_type ]})
     super(options)
   end

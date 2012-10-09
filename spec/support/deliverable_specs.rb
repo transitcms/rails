@@ -22,6 +22,25 @@ module DeliverableSpecs
     
     it{ should embed_many(:contexts) }
     
+    describe 'serializing as json' do
+      
+      let!(:item) do
+        described_class.make!(
+          :contexts => [
+            TextBlock.new
+          ]
+        )
+      end
+      
+      let(:item_data) do
+        item.as_json.stringify_keys!
+      end
+      
+      it 'includes additional options in serialization' do
+        item_data['contexts'].first
+          .keys.should include('id')
+      end
+    end
   end
   
   

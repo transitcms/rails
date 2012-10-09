@@ -12,7 +12,11 @@ class HeadingText < Context
   
   before_save :cleanup_body
   
-  def as_json(options = {})
+  ##
+  # Include the node and body within 
+  # the JSON hash.
+  # 
+  def serializable_hash(options = {})
     options.reverse_merge!({ :only => [:body, :node] })
     super(options)
   end
