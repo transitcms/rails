@@ -37,6 +37,20 @@ describe Asset do
       end
     end
     
+    context 'when the name is blank' do
+      
+      let!(:asset) do
+        Asset.create(
+          :file => fixture,
+          :name => ""
+        )
+      end
+      
+      it 'sets the name from the file name' do
+        asset.name.should eq('image.jpg')
+      end
+    end
+    
     context 'when a name was set' do
       
       let!(:asset) do
