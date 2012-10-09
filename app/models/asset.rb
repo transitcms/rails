@@ -79,6 +79,7 @@ class Asset
       :id         => self.id,
       :url        => (self.file.file? ? self.file.url(:original) : nil), 
       :image      => image?,
+      :name       => self.name,
       :filename   => self.file_file_name)
     options.merge!(:group => self.group.as_json) if ::Transit.config.assets.store_in_groups
     options
