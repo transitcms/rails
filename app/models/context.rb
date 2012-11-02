@@ -66,8 +66,8 @@ class Context
   # If a context is fixed, do not allow it to be removed.
   # 
   def block_removal_of_fixed_contexts
-    return true if self.removable?
-    false
+    return false if self.removable == false
+    true
   end
   
 end
