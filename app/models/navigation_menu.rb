@@ -20,7 +20,7 @@ class NavigationMenu
   field :name, :type => String
   field :description, :type => String
   
-  embeds_many :items, :class_name => 'Menu::MenuItem'
+  embeds_many :items, :class_name => 'NavigationMenu::MenuItem'
   
   validates :name, :presence => true
   
@@ -46,7 +46,7 @@ class NavigationMenu
     has_ancestry :orphan_strategy => :rootify, :cache_depth => true
     field :ancestry_depth, :type => Integer, :default => 0
     
-    embedded_in :menu, :class_name => 'Menu'
+    embedded_in :menu, :class_name => 'NavigationMenu'
     validates :title, :presence => true
     validates :url, :presence => { :if => :linkable? }
     
