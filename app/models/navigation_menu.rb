@@ -7,7 +7,7 @@ require 'mongoid-ancestry'
 # whatever. Each menu contains a number of items, which allows customization 
 # of the text displayed, as well as the url.
 # 
-class Menu
+class NavigationMenu
   include Mongoid::Document
   include Mongoid::Timestamps
 
