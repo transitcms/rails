@@ -11,7 +11,7 @@ describe "the Ordering extension" do
   end
   
   let!(:menu) do
-    Menu.make!
+    NavigationMenu.make!
   end
   
   describe "position" do

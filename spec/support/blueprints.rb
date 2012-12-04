@@ -13,6 +13,6 @@ ContentBlock.blueprint do
   name { "Content block #{sn}"}
 end
 
-Menu.blueprint do
+NavigationMenu.blueprint do
   name { "Sample menu #{sn}" }
 end

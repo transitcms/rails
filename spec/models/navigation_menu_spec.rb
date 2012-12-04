@@ -36,7 +36,7 @@ describe NavigationMenu do
   end
   
   let!(:page) do
-    NavigationMenu.make!
+    Page.make!
   end
   
   describe 'an item with a page' do
