@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Menu do
+describe NavigationMenu do
   
   describe 'associations' do
     
@@ -19,7 +19,7 @@ describe Menu do
   describe 'MenuItem' do
     
     subject do
-      Menu::MenuItem
+      NavigationMenu::MenuItem
     end
     
     it 'is embedded in a menu' do
@@ -32,11 +32,11 @@ describe Menu do
   end
   
   let!(:menu) do
-    Menu.make!
+    NavigationMenu.make!
   end
   
   let!(:page) do
-    Page.make!
+    NavigationMenu.make!
   end
   
   describe 'an item with a page' do
