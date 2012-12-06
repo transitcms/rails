@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe NavigationMenu do
+describe Transit::Menu do
   
   describe 'associations' do
     
@@ -19,7 +19,7 @@ describe NavigationMenu do
   describe 'MenuItem' do
     
     subject do
-      NavigationMenu::MenuItem
+      Transit::Menu::MenuItem
     end
     
     it 'is embedded in a menu' do
@@ -32,7 +32,7 @@ describe NavigationMenu do
   end
   
   let!(:menu) do
-    NavigationMenu.make!
+    Transit::Menu.make!
   end
   
   let!(:page) do
@@ -54,9 +54,9 @@ describe NavigationMenu do
         .should_not be_nil
     end
     
-    it 'sets the items url to the page path' do
+    it 'sets the items url to the page\'s absolute path' do
       item.url.should(
-        eq "/#{page.full_path}"
+        eq page.absolute_path
       )
     end
   end

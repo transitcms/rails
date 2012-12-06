@@ -99,6 +99,16 @@ module Transit
       end
       
       ##
+      # Get the absolute path/url to this page from 
+      # the top level domain.
+      # 
+      def absolute_path
+        File.join("/", full_path)
+      end
+      
+      alias :abs_path :absolute_path
+      
+      ##
       # Used to set keywords via comma separated string
       # 
       def keyword_list=(words)

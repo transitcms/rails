@@ -2,7 +2,12 @@ require 'spec_helper'
 
 describe Page do
   include DeliverableSpecs
-
+  
+  Page.class_eval do
+    deliver_with :publishing
+    scope :published, where(:published => true)
+  end
+  
   let!(:page) do 
     Page.make!(
       :title => "Parent Page", 
@@ -193,6 +198,16 @@ describe Page do
           page.pages.count
             .should eq 1
         end
+        
+        it "creates full_path using only its slug" do
+          page.full_path
+            .should eq 'parent-page'
+        end
+        
+        it 'creates absolute_path using only its slug' do
+          page.absolute_path
+            .should eq '/parent-page'
+        end
       end
       
       context 'and it does not have sub-pages' do
@@ -216,14 +231,14 @@ describe Page do
           .should be_empty
       end
       
-      it "creates a full path including its parent slug" do
+      it "creates full_path using only its parent slug" do
         sub_page.full_path
-          .should eq "parent-page/sub-page"
+          .should eq 'parent-page/sub-page'
       end
-      
-      it "stores all parent paths in the slug_map array" do
-        sub_page.slug_map
-          .should eq ['parent-page', 'sub-page']
+        
+      it 'creates absolute_path using its parent slug' do
+        sub_page.absolute_path
+          .should eq '/parent-page/sub-page'
       end
     end
     

@@ -14,9 +14,7 @@ PORT = ENV["TRANSIT_SPEC_PORT"]
 Bundler.require :default, :development
 require 'mongoid'
 
-Mongoid.configure do |config|
-  config.connect_to(ENV["CI"] ? "transitcms_test_#{Process.pid}" : "transitcms_test")
-end
+Mongoid.load!(File.join(File.dirname(__FILE__), 'internal', 'config', 'mongoid.yml'))
 
 Mongoid.logger = nil
 
