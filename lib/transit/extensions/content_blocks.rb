@@ -13,7 +13,7 @@ module Transit
       
       included do
         has_and_belongs_to_many :content_blocks
-        ::ContentBlock.send(:has_and_belongs_to_many, :"#{self.class.name.pluralize.underscore}", :inverse_of => nil)
+        accepts_nested_attributes_for :content_blocks, :allow_destroy => true
       end
       
     end # ContentBlocks

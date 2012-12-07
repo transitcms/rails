@@ -50,6 +50,8 @@ module Transit
         define_method(:"#{self.name.underscore}=") do |owner|
           self.parent = owner
         end
+        
+        embeds_many :content_blocks, :class_name => 'ContentBlock', :as => :deliverable
                 
         before_save :sanitize_path_names
         before_save :generate_paths

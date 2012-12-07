@@ -19,7 +19,7 @@ class ContentBlock
   field :name,            :type => String,  :default => "content_block"
   field :content_enabled, :type => Boolean, :default => true
   field :removable,       :type => Boolean, :default => true
-  
+
   private
   
   ##

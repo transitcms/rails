@@ -6,6 +6,10 @@ describe 'HTML to Context generator' do
     Page.new
   end
   
+  let!(:content_block) do
+    ContentBlock.new
+  end
+  
   let!(:data) do
     "<h1>Heading</h1><div data-context-type='TextBlock'><p>This is some body copy</p></div>"
   end
@@ -121,6 +125,25 @@ describe 'HTML to Context generator' do
     it 'generates each context from type' do
       page.contexts.first
         .should be_a(HeadingText)
+    end
+  end
+  
+  context 'when used with .build_from_html on a content block' do
+    
+    before do
+      content_block.contexts.delete_all
+      content_block
+        .build_from_html(data)
+    end
+    
+    it 'generates contexts from the html data' do
+      content_block.contexts 
+        .size.should eq 2
+    end
+    
+    it 'generates each context from type' do
+      content_block.contexts
+        .first.should be_a(HeadingText)
     end
   end
 end

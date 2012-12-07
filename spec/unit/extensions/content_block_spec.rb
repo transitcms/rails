@@ -19,5 +19,4 @@ describe "the Content Block extension" do
   it 'associates the content block class' do
     Deliverable.should have_and_belong_to_many :content_blocks
   end
-  
 end

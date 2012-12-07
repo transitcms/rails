@@ -93,8 +93,12 @@ module Transit
     # Output a context in a managed state
     # 
     def deliver_managed_context(context, content)
-      klasses = ['managed-context', context.context_type.underscore.dasherize].join(" ")
-      template.content_tag(:div, content, :class => klasses, :data => { 'context-id' => context.id.to_s, 'context-type' => context.context_type })
+      klasses    = ['managed-context', context.context_type.underscore.dasherize].join(" ")
+      data_attrs = { 'context-id' => context.id.to_s, 'context-type' => context.context_type }
+      if context._parent.class.name == 'ContentBlock'
+        data_attrs.merge!('content-block-id' => context._parent.id.to_s)
+      end
+      template.content_tag(:div, content, :class => klasses, :data => data_attrs)
     end
 
   
