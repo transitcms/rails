@@ -121,7 +121,7 @@ module Transit
       # Display keywords as a comma separated string.
       # 
       def keyword_list
-        self.keywords.join(",")
+        [self.keywords].flatten.compact.join(",")
       end
       
       ##

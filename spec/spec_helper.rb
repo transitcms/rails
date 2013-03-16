@@ -24,6 +24,10 @@ SimpleCov.start 'rails'
 require 'machinist'
 require 'machinist/mongoid'
 
+if ENV['TRANSIT_JS_ENV']
+  require 'konacha'
+end
+
 Combustion.initialize! :action_controller, :action_view, :sprockets, :action_mailer
 
 ActiveSupport::Dependencies.explicitly_unloadable_constants << "Transit"
@@ -38,6 +42,7 @@ require 'rspec-html-matchers'
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
 RSpec.configure do |config|
+  config.color = true
   config.mock_with :rspec
   config.include Mongoid::Matchers
   config.before(:each) do

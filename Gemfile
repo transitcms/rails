@@ -11,6 +11,15 @@ group :test do
   gem "guard-rspec"
   gem 'rb-fsevent', '~> 0.9.1'
   gem 'machinist_mongo', github: 'brentkirby/machinist_mongo', require: 'machinist/mongoid'
+  gem 'poltergeist', '1.1.0'
+  gem "konacha", "~>2.5"
+end
+
+group :assets do
+  gem 'jquery-rails'
+  gem 'uglifier'
+  gem 'coffee-script', '2.2.0'
+  gem "bootstrap-sass"
 end
 
 gemspec
