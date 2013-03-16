@@ -10,6 +10,7 @@ end
 require 'combustion'
 require 'sass-rails'
 require 'coffee-rails'
+require 'bootstrap-sass'
 
 Combustion.initialize! :action_controller, :action_view, :sprockets, :action_mailer
 run Combustion::Application
