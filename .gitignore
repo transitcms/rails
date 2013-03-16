@@ -3,3 +3,6 @@
 .rvmrc
 coverage
 spec/internal/public/system/*
+spec/internal/tmp/*
+spec/internal/log/*
+.rbenv-gemsets

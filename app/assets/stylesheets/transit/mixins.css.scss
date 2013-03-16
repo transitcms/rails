@@ -1,0 +1,4 @@
+@mixin heading-font($bold:false){
+  font-family:'Dosis', 'Helvetica Nueue', 'Helvetica', 'Arial', sans-serif;
+  font-weight:if($bold == bold, 700, 400);
+}

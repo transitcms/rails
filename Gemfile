@@ -16,6 +16,8 @@ group :test do
 end
 
 group :assets do
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
   gem 'jquery-rails'
   gem 'uglifier'
   gem 'coffee-script', '2.2.0'

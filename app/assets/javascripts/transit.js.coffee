@@ -1,4 +1,5 @@
 #= require spine
+#= require bootstrap
 #= require_self
 #= require transit/deliverable
 

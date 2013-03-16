@@ -7,9 +7,9 @@ require "transit/version"
 module Transit
   extend self
   
-  autoload :Interpolations, 'transit/interpolations'
-  autoload :Generator,      'transit/generator'
-  autoload :Menu,           File.expand_path('../../app/models/transit/menu', __FILE__)
+  autoload :Interpolations,     'transit/interpolations'
+  autoload :Generator,          'transit/generator'
+  autoload :Menu,               File.expand_path('../../app/models/transit/menu', __FILE__)
 
   module Support
   end

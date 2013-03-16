@@ -25,6 +25,8 @@ require 'machinist'
 require 'machinist/mongoid'
 
 if ENV['TRANSIT_JS_ENV']
+  ENV['RAILS_ENV'] = 'development'
+  ENV['RACK_ENV'] = 'development'
   require 'konacha'
 end
 
