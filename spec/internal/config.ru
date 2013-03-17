@@ -4,6 +4,8 @@ require 'bundler'
 Bundler.require :default, :development
 
 if ENV['TRANSIT_JS_ENV']
+  ENV['RACK_ENV'] = "development"
+  ENV['RAILS_ENV'] = "development"
   require 'konacha'
 end
 

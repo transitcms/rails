@@ -17,22 +17,27 @@
     <meta property="og:description" content="Transit" />
     <meta property="og:image" content="" />
     <%= stylesheet_link_tag 'transit' %>
+    <%= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" %>
+    <%= javascript_include_tag 'transit' %>
+    <script type="text/javascript" charset="utf-8">
+        Transit.init();
+    </script>
 </head>
 <body>
     <div id="wrapper" class="container">
         <div class="navbar navbar-inverse navbar-fixed-top" id="transit_toolbar">
             <div class="navbar-inner">
-                <h1 class="brand"><i class="icon-truck"></i> transit</h1>
+                <h1 class="brand"><i class="icon-truck"></i> <span id="brand_text">transit</span></h1>
                 <ul class="nav">
+                    <li><a href="#" data-toggle="button"><i class="icon-list-ul"></i> Properties</a></li>
+                    <li><a href="#" data-toggle="button"><i class="icon-suitcase"></i> Assets</a></li>
                 </ul>
                 <a id="save_button" class="btn btn-primary pull-right" href="#"><i class="icon-ok"></i> Save</a>
             </div>
         </div>
         <div id="transit_frame_wrapper">
-            <iframe id="transit_frame" src=""></iframe>
+            <iframe id="transit_frame" src="<%= request.path %>?transit_managed=true"></iframe>
         </div>
     </div>
-<%= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" %>
-<%= javascript_include_tag 'transit' %>
 </body>
 </html>

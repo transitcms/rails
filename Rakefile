@@ -9,6 +9,7 @@ end
 task :default => :spec
 
 task :serve => [:load_app] do
+  Combustion::Application.config.cache_classes = false
   `rackup -p 4000 spec/internal/config.ru`
   #Konacha.serve
 end
