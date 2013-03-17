@@ -10,16 +10,13 @@
     <title>Managed Page</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <link rel="dns-prefetch" href="//ajax.googleapis.com" />
+    <%= stylesheet_link_tag "application" %>
 </head>
 <body>
     <div id="wrapper">
-        <header id="heading">
-        </header>
         <div id="main" role="main">
             <%= yield %>
         </div>
-        <footer id="footer">
-        </footer>
     </div>
     <%= javascript_include_tag "//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js" %>
 </body>

@@ -2,11 +2,22 @@ html, body{ padding:0; }
 #transit_toolbar{ 
   div.navbar-inner{ padding:0 20px; }
   h1{ margin:0; display:inline-block; padding:0 20px 0 0; @include heading-font; line-height:38px; height:100%; height:40px;
-    i{ font-size:.65em; display:inline-block; vertical-align:middle; border-radius:100%; border:2px solid $grayLight; 
-      padding:.25em; margin-right:.15em; margin-top:-.1em;
+    span.icon{ display:inline-block; vertical-align:middle; border-radius:100%; border:2px solid $grayLight; position:relative;
+      margin-right:.15em; margin-top:-.1em; width:24px; height:24px; text-align:center; text-indent:0; line-height:0;
+    }
+    
+    i{ font-size:.65em; position:absolute; top:.4em; left:.4em;
+      -webkit-transform-origin:center; -moz-transform-origin:center; -o-transform-origin:center; transform-origin:center; 
+    }
+    i.icon-spin{ -moz-animation: spin 1s infinite linear; -o-animation: spin 1s infinite linear;
+      -webkit-animation: spin 1s infinite linear; animation: spin 1s infinite linear;
+      -webkit-transform-origin:center; -moz-transform-origin:center; -o-transform-origin:center; transform-origin:center; 
+      left:.5em;
     }
   }
+  
   ul.nav a{ line-height:22px; }
+  
 }
 
 #save_button{ font-size:13px; 

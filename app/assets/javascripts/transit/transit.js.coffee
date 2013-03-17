@@ -6,6 +6,7 @@
 #= require transit/model
 #= require transit/context
 #= require transit/deliverable
+#= require transit/manager
 
 Spine   = @Spine or require('spine')
 $       = Spine.$
@@ -23,9 +24,10 @@ class Transit extends Spine.Module
   debug: true
   editor: null
   
+  managers: []
   init:->
     $ =>
-      $('#brand_text').text( @branding )
+      $('#logo > span.text').text( @branding )
 
 class Logger extends Spine.Module
   prefix: "(Transit)"
@@ -41,10 +43,18 @@ class Logger extends Spine.Module
     console?.error?(args...)
     this
 
-
 Transit = @Transit = new Transit()
 Transit.logger = new Logger()
 
+$(document).ajaxStart ()->
+  $('#logo i').removeClass('icon-truck')
+    .addClass('icon-spinner icon-spin')
+  
+$(document).ajaxComplete ()->
+  $('#logo i')
+    .removeClass('icon-spinner icon-spin')
+    .addClass('icon-truck')
+    
   
 ###---------------------------------------
  Exports
