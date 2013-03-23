@@ -11,15 +11,29 @@ describe 'Transit', ->
   it 'includes an .off event handler', ->
     expect(Transit.off).to.exist
   
-  describe 'the .one event handler', ->
-    callback = null
-
+  describe '.init', ->
+    
+    beforeEach -> 
+      Transit.init()
+    
+    it 'should create an editor instance', ->
+      expect(Transit.editor)
+        .to.exist
+        
+    it 'should create a toolbar instance', ->
+      console.log(Transit)
+      expect(Transit.toolbar)
+        .to.exist
+  
+  describe '.configure', ->
+    
     beforeEach ->
-      callback = sinon.spy()
-      Transit.one('spec:init', callback)
-      Transit.trigger('spec:init')
-      Transit.trigger('spec:init')
-
-    it 'only runs a callback once', ->
-      expect(callback.callCount)
-        .to.equal(1)
+      Transit.configure
+        branding:
+          label: "tester"
+    
+    it 'extends the .options property', ->
+      expect(
+        Transit.options.branding.label
+      ).to.equal 'tester'
+      

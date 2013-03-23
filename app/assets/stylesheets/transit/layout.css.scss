@@ -16,7 +16,10 @@ html, body{ padding:0; }
     }
   }
   
-  ul.nav a{ line-height:22px; }
+  ul.nav{
+    li{ padding-top:10px; }
+    a{ line-height:22px; padding:0 1em; }
+  }
   
 }
 

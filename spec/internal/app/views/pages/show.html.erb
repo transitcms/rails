@@ -1,1 +1,13 @@
 <%= deliver(resource, managed: true) %>
+<% content_for :scripts do %>
+<script type="text/javascript" charset="utf-8">
+    $(document).one("transit:ready", function(event){
+       Transit.configure({
+           managers:[
+             'Transit.PropertyManager',
+             'Transit.AssetManager'
+           ]
+       });
+    });
+</script>
+<% end %>

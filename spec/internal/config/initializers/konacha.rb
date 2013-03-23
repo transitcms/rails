@@ -1,4 +1,5 @@
 if defined?(Konacha)
+  Combustion::Application.config.cache_classes = false
   require 'coffee_script'
   Konacha.configure do |config|
     require 'capybara/poltergeist'

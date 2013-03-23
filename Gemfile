@@ -13,6 +13,7 @@ group :test do
   gem 'machinist_mongo', github: 'brentkirby/machinist_mongo', require: 'machinist/mongoid'
   gem 'poltergeist', '1.1.0'
   gem "konacha", "~>2.5"
+  gem "puma"
 end
 
 group :assets do

@@ -1,25 +1,28 @@
+$ = @Transit.$
+
 class @Transit.Editor extends Spine.Controller
-  frame: null
-  doc: null
-  url: null
+  document: null
+  win: null
+  $: null
   
   constructor: ->
     super
-    @frame ||= $('#transit_frame')
-    @frame.one 'load', ()=>
-      @doc = @frame.contents()
-      @logger.info("Managing resource at #{url}")
-    @iframe.attr('src', "#{url}#{split}transit_managed=true")  
-    @frame.attr('src', editor_url(@url))
-
-
-editor_url = (base)->
-  parseUrl = (url)->
-    link = document.createElement('a')
-    link.href = url
-    link
-  data = parseUrl(url)
+    @setup()
     
-  split = if data.search is "" then "?" else "&"
-  url   = "/#{url}" unless url.match(/^\//)
-  return "#{url}#{split}transit_managed=true"
+  setup:=>
+    @$el = $('#transit_frame')
+    @$el.one 'load', ()=>
+      @document = @$el.contents()
+      @win = @$el.get(0).contentWindow
+      @win.Transit = Transit
+      @win.$ = $ unless @win.$
+      @$ = @win.$
+      @setupFrame()
+      
+      @$.event.trigger('transit:ready')
+      Transit.trigger('ready')
+
+  setupFrame:()=>
+    for node in $('a, form', @document)
+      if node.target == '' || node.target == '_self'
+        $(node).attr('target', '_parent')
