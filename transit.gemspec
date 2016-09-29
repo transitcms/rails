@@ -19,9 +19,9 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   
   s.add_dependency("rails", ">= 3.1")
-  s.add_dependency("mongoid", "~> 3.0.1")
+  s.add_dependency("mongoid", "~> 3.0.1", "~> 5.0.0")
   s.add_dependency("paperclip", "~> 3.1")
-  s.add_dependency("mongoid-ancestry", "~> 0.3.0")
+  s.add_dependency("mongoid-ancestry", "~> 0.3.0", "~> 0.4.2")
   
   s.add_development_dependency('combustion', '~> 0.3.1')
   s.add_development_dependency("rspec", ">= 2.11.0")
